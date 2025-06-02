@@ -48,8 +48,8 @@ import {
   Eye,
   Loader2,
 } from "lucide-react";
-import { useInvoices } from "@/hooks/use-invoices";
-import { useUsers } from "@/hooks/use-users";
+import { useInvoices } from "../../../hooks/use-invoices";
+import { useUsers } from "../../../hooks/use-users";
 import { Alert, AlertDescription } from "../../../components/ui/alert";
 
 export default function BillingManagement() {
