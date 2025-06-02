@@ -31,8 +31,8 @@ import {
 import { Label } from "../../../components/ui/label";
 import { PatientLayout } from "../../../components/layouts/patient-layout";
 import { CalendarIcon, Clock, Plus, Loader2 } from "lucide-react";
-import { useAppointments } from "@/hooks/use-appointments";
-import { useUsers } from "@/hooks/use-users";
+import { useAppointments } from "../../../hooks/use-appointments";
+import { useUsers } from "../../../hooks/use-users";
 import { Alert, AlertDescription } from "../../../components/ui/alert";
 
 export default function PatientAppointments() {
