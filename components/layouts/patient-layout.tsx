@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import type { ReactNode } from "react"
+import type { ReactNode } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +15,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "../ui/sidebar";
 import {
   LayoutDashboard,
   Calendar,
@@ -25,8 +25,8 @@ import {
   Upload,
   LogOut,
   SmileIcon as Tooth,
-} from "lucide-react"
-import Link from "next/link"
+} from "lucide-react";
+import Link from "next/link";
 
 const menuItems = [
   {
@@ -59,10 +59,10 @@ const menuItems = [
     url: "/patient/profile",
     icon: Settings,
   },
-]
+];
 
 interface PatientLayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function PatientLayout({ children }: PatientLayoutProps) {
@@ -102,7 +102,13 @@ export function PatientLayout({ children }: PatientLayoutProps) {
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton>
+              <SidebarMenuButton
+                onClick={() => {
+                  fetch("/api/auth/logout", {
+                    method: "POST",
+                  });
+                }}
+              >
                 <LogOut />
                 <span>Logout</span>
               </SidebarMenuButton>
@@ -117,5 +123,5 @@ export function PatientLayout({ children }: PatientLayoutProps) {
         <main className="flex-1 p-6">{children}</main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

@@ -1,20 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { ReceptionistLayout } from "@/components/layouts/receptionist-layout"
-import { UserCheck, Search, Clock, CheckCircle, AlertCircle, User } from "lucide-react"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../../components/ui/tabs";
+import { Label } from "../../../components/ui/label";
+import { Textarea } from "../../../components/ui/textarea";
+import { Checkbox } from "../../../components/ui/checkbox";
+import { ReceptionistLayout } from "../../../components/layouts/receptionist-layout";
+import {
+  UserCheck,
+  Search,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  User,
+} from "lucide-react";
 
 export default function ReceptionistCheckin() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedPatient, setSelectedPatient] = useState<any>(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
   const todayAppointments = [
     {
@@ -61,57 +79,65 @@ export default function ReceptionistCheckin() {
       checkedIn: false,
       insuranceVerified: false,
     },
-  ]
+  ];
 
   const filteredAppointments = todayAppointments.filter((appointment) =>
-    appointment.patient.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+    appointment.patient.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "waiting":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "checked-in":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case "in-treatment":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "completed":
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "waiting":
-        return <Clock className="h-4 w-4" />
+        return <Clock className="h-4 w-4" />;
       case "checked-in":
-        return <UserCheck className="h-4 w-4" />
+        return <UserCheck className="h-4 w-4" />;
       case "in-treatment":
-        return <User className="h-4 w-4" />
+        return <User className="h-4 w-4" />;
       case "completed":
-        return <CheckCircle className="h-4 w-4" />
+        return <CheckCircle className="h-4 w-4" />;
       default:
-        return <AlertCircle className="h-4 w-4" />
+        return <AlertCircle className="h-4 w-4" />;
     }
-  }
+  };
 
   const handleCheckIn = (appointmentId: number) => {
     // In a real app, this would update the appointment status
-    console.log("Checking in appointment:", appointmentId)
-  }
+    console.log("Checking in appointment:", appointmentId);
+  };
 
-  const waitingCount = todayAppointments.filter((a) => a.status === "waiting").length
-  const checkedInCount = todayAppointments.filter((a) => a.status === "checked-in").length
-  const inTreatmentCount = todayAppointments.filter((a) => a.status === "in-treatment").length
+  const waitingCount = todayAppointments.filter(
+    (a) => a.status === "waiting"
+  ).length;
+  const checkedInCount = todayAppointments.filter(
+    (a) => a.status === "checked-in"
+  ).length;
+  const inTreatmentCount = todayAppointments.filter(
+    (a) => a.status === "in-treatment"
+  ).length;
 
   return (
     <ReceptionistLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Patient Check-in</h1>
-          <p className="text-gray-600">Manage patient arrivals and check-in process</p>
+          <p className="text-gray-600">
+            Manage patient arrivals and check-in process
+          </p>
         </div>
 
         {/* Quick Stats */}
@@ -134,18 +160,24 @@ export default function ReceptionistCheckin() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{checkedInCount}</div>
-              <p className="text-xs text-muted-foreground">Ready for treatment</p>
+              <p className="text-xs text-muted-foreground">
+                Ready for treatment
+              </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">In Treatment</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                In Treatment
+              </CardTitle>
               <User className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{inTreatmentCount}</div>
-              <p className="text-xs text-muted-foreground">Currently with dentist</p>
+              <p className="text-xs text-muted-foreground">
+                Currently with dentist
+              </p>
             </CardContent>
           </Card>
 
@@ -155,8 +187,12 @@ export default function ReceptionistCheckin() {
               <CheckCircle className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{todayAppointments.length}</div>
-              <p className="text-xs text-muted-foreground">Scheduled appointments</p>
+              <div className="text-2xl font-bold">
+                {todayAppointments.length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Scheduled appointments
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -166,7 +202,9 @@ export default function ReceptionistCheckin() {
           <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle>Today's Appointments</CardTitle>
-              <CardDescription>Manage patient check-ins and status</CardDescription>
+              <CardDescription>
+                Manage patient check-ins and status
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="mb-4">
@@ -187,7 +225,9 @@ export default function ReceptionistCheckin() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <span className="font-medium">{appointment.time}</span>
+                          <span className="font-medium">
+                            {appointment.time}
+                          </span>
                           <Badge className={getStatusColor(appointment.status)}>
                             <div className="flex items-center gap-1">
                               {getStatusIcon(appointment.status)}
@@ -198,11 +238,17 @@ export default function ReceptionistCheckin() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <p className="font-medium">{appointment.patient}</p>
-                            <p className="text-sm text-gray-600">{appointment.phone}</p>
+                            <p className="text-sm text-gray-600">
+                              {appointment.phone}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-sm font-medium">{appointment.type}</p>
-                            <p className="text-sm text-gray-600">with {appointment.dentist}</p>
+                            <p className="text-sm font-medium">
+                              {appointment.type}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              with {appointment.dentist}
+                            </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-4 mt-2 text-sm">
@@ -218,11 +264,18 @@ export default function ReceptionistCheckin() {
                       </div>
                       <div className="flex gap-2 ml-4">
                         {appointment.status === "waiting" && (
-                          <Button size="sm" onClick={() => handleCheckIn(appointment.id)}>
+                          <Button
+                            size="sm"
+                            onClick={() => handleCheckIn(appointment.id)}
+                          >
                             Check In
                           </Button>
                         )}
-                        <Button variant="outline" size="sm" onClick={() => setSelectedPatient(appointment)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedPatient(appointment)}
+                        >
                           Details
                         </Button>
                       </div>
@@ -249,8 +302,12 @@ export default function ReceptionistCheckin() {
 
                   <TabsContent value="checkin" className="space-y-4">
                     <div>
-                      <h3 className="font-medium mb-2">{selectedPatient.patient}</h3>
-                      <p className="text-sm text-gray-600">{selectedPatient.type}</p>
+                      <h3 className="font-medium mb-2">
+                        {selectedPatient.patient}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {selectedPatient.type}
+                      </p>
                     </div>
 
                     <div className="space-y-3">
@@ -268,13 +325,18 @@ export default function ReceptionistCheckin() {
                       </div>
                       <div className="flex items-center space-x-2">
                         <Checkbox id="payment" />
-                        <Label htmlFor="payment">Payment method confirmed</Label>
+                        <Label htmlFor="payment">
+                          Payment method confirmed
+                        </Label>
                       </div>
                     </div>
 
                     <div>
                       <Label htmlFor="notes">Check-in Notes</Label>
-                      <Textarea id="notes" placeholder="Any special notes or concerns..." />
+                      <Textarea
+                        id="notes"
+                        placeholder="Any special notes or concerns..."
+                      />
                     </div>
 
                     <Button className="w-full">Complete Check-in</Button>
@@ -312,5 +374,5 @@ export default function ReceptionistCheckin() {
         </div>
       </div>
     </ReceptionistLayout>
-  )
+  );
 }

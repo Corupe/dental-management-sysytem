@@ -1,13 +1,26 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -15,97 +28,113 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { ReceptionistLayout } from "@/components/layouts/receptionist-layout"
-import { DollarSign, Plus, Search, Download, Send, Eye, Loader2 } from "lucide-react"
-import { useInvoices } from "@/hooks/use-invoices"
-import { useUsers } from "@/hooks/use-users"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+} from "../../../components/ui/dialog";
+import { Label } from "../../../components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
+import { Textarea } from "../../../components/ui/textarea";
+import { ReceptionistLayout } from "../../../components/layouts/receptionist-layout";
+import {
+  DollarSign,
+  Plus,
+  Search,
+  Download,
+  Send,
+  Eye,
+  Loader2,
+} from "lucide-react";
+import { useInvoices } from "@/hooks/use-invoices";
+import { useUsers } from "@/hooks/use-users";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
 
 export default function BillingManagement() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
-  const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false);
   const [formData, setFormData] = useState({
     patientId: "",
     description: "",
     amount: 0,
     dueDate: "",
     notes: "",
-  })
+  });
 
-  const { invoices, loading, error, createInvoice, updateInvoice } = useInvoices()
-  const { users: patients } = useUsers("patient")
+  const { invoices, loading, error, createInvoice, updateInvoice } =
+    useInvoices();
+  const { users: patients } = useUsers("patient");
 
   const filteredInvoices = invoices.filter((invoice: any) => {
     const matchesSearch =
       invoice.patientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.id?.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === "all" || invoice.status === statusFilter
-    return matchesSearch && matchesStatus
-  })
+      invoice.id?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || invoice.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const invoiceData = {
       ...formData,
       status: "pending",
       invoiceNumber: `INV-${Date.now()}`,
-    }
+    };
 
-    const success = await createInvoice(invoiceData)
+    const success = await createInvoice(invoiceData);
     if (success) {
-      setIsCreateInvoiceOpen(false)
+      setIsCreateInvoiceOpen(false);
       setFormData({
         patientId: "",
         description: "",
         amount: 0,
         dueDate: "",
         notes: "",
-      })
+      });
     }
-  }
+  };
 
   const handleMarkAsPaid = async (id: string) => {
     await updateInvoice(id, {
       status: "paid",
       paidDate: new Date().toISOString().split("T")[0],
-    })
-  }
+    });
+  };
 
   const handleSendInvoice = async (id: string) => {
     // In a real app, this would send an email
-    alert("Invoice sent successfully!")
-  }
+    alert("Invoice sent successfully!");
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "paid":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "pending":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "overdue":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       case "cancelled":
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   const totalRevenue = invoices
     .filter((inv: any) => inv.status === "paid")
-    .reduce((sum: number, inv: any) => sum + inv.amount, 0)
+    .reduce((sum: number, inv: any) => sum + inv.amount, 0);
   const pendingAmount = invoices
     .filter((inv: any) => inv.status === "pending")
-    .reduce((sum: number, inv: any) => sum + inv.amount, 0)
+    .reduce((sum: number, inv: any) => sum + inv.amount, 0);
   const overdueAmount = invoices
     .filter((inv: any) => inv.status === "overdue")
-    .reduce((sum: number, inv: any) => sum + inv.amount, 0)
+    .reduce((sum: number, inv: any) => sum + inv.amount, 0);
 
   if (loading) {
     return (
@@ -114,7 +143,7 @@ export default function BillingManagement() {
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       </ReceptionistLayout>
-    )
+    );
   }
 
   return (
@@ -126,7 +155,10 @@ export default function BillingManagement() {
             <p className="text-gray-600">Manage invoices and payments</p>
           </div>
 
-          <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
+          <Dialog
+            open={isCreateInvoiceOpen}
+            onOpenChange={setIsCreateInvoiceOpen}
+          >
             <DialogTrigger asChild>
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
@@ -136,14 +168,18 @@ export default function BillingManagement() {
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
                 <DialogTitle>Create New Invoice</DialogTitle>
-                <DialogDescription>Generate an invoice for patient services</DialogDescription>
+                <DialogDescription>
+                  Generate an invoice for patient services
+                </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <Label htmlFor="patient">Patient</Label>
                   <Select
                     value={formData.patientId}
-                    onValueChange={(value) => setFormData({ ...formData, patientId: value })}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, patientId: value })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select patient" />
@@ -163,7 +199,9 @@ export default function BillingManagement() {
                     id="description"
                     placeholder="Describe the services provided"
                     value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -176,7 +214,12 @@ export default function BillingManagement() {
                       step="0.01"
                       placeholder="0.00"
                       value={formData.amount}
-                      onChange={(e) => setFormData({ ...formData, amount: Number.parseFloat(e.target.value) })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          amount: Number.parseFloat(e.target.value),
+                        })
+                      }
                       required
                     />
                   </div>
@@ -186,7 +229,9 @@ export default function BillingManagement() {
                       id="dueDate"
                       type="date"
                       value={formData.dueDate}
-                      onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, dueDate: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -197,11 +242,17 @@ export default function BillingManagement() {
                     id="notes"
                     placeholder="Additional notes"
                     value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, notes: e.target.value })
+                    }
                   />
                 </div>
                 <div className="flex justify-end gap-2">
-                  <Button type="button" variant="outline" onClick={() => setIsCreateInvoiceOpen(false)}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsCreateInvoiceOpen(false)}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit">Create Invoice</Button>
@@ -221,11 +272,15 @@ export default function BillingManagement() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Revenue
+              </CardTitle>
               <DollarSign className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
+              <div className="text-2xl font-bold">
+                ${totalRevenue.toFixed(2)}
+              </div>
               <p className="text-xs text-muted-foreground">Paid invoices</p>
             </CardContent>
           </Card>
@@ -236,7 +291,9 @@ export default function BillingManagement() {
               <DollarSign className="h-4 w-4 text-yellow-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${pendingAmount.toFixed(2)}</div>
+              <div className="text-2xl font-bold">
+                ${pendingAmount.toFixed(2)}
+              </div>
               <p className="text-xs text-muted-foreground">Awaiting payment</p>
             </CardContent>
           </Card>
@@ -247,14 +304,18 @@ export default function BillingManagement() {
               <DollarSign className="h-4 w-4 text-red-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${overdueAmount.toFixed(2)}</div>
+              <div className="text-2xl font-bold">
+                ${overdueAmount.toFixed(2)}
+              </div>
               <p className="text-xs text-muted-foreground">Past due date</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Invoices</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Invoices
+              </CardTitle>
               <DollarSign className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
@@ -268,7 +329,9 @@ export default function BillingManagement() {
         <Card>
           <CardHeader>
             <CardTitle>Invoices</CardTitle>
-            <CardDescription>Manage patient invoices and payments</CardDescription>
+            <CardDescription>
+              Manage patient invoices and payments
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex gap-4 mb-6">
@@ -309,27 +372,44 @@ export default function BillingManagement() {
               <TableBody>
                 {filteredInvoices.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                    <TableCell
+                      colSpan={7}
+                      className="text-center py-8 text-gray-500"
+                    >
                       No invoices found. Create your first invoice!
                     </TableCell>
                   </TableRow>
                 ) : (
                   filteredInvoices.map((invoice: any) => (
                     <TableRow key={invoice._id}>
-                      <TableCell className="font-medium">{invoice.invoiceNumber}</TableCell>
-                      <TableCell>{invoice.patientName || "Unknown Patient"}</TableCell>
+                      <TableCell className="font-medium">
+                        {invoice.invoiceNumber}
+                      </TableCell>
+                      <TableCell>
+                        {invoice.patientName || "Unknown Patient"}
+                      </TableCell>
                       <TableCell>{invoice.description}</TableCell>
                       <TableCell>${invoice.amount?.toFixed(2)}</TableCell>
                       <TableCell>{invoice.dueDate}</TableCell>
                       <TableCell>
-                        <Badge className={getStatusColor(invoice.status)}>{invoice.status}</Badge>
+                        <Badge className={getStatusColor(invoice.status)}>
+                          {invoice.status}
+                        </Badge>
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-1">
-                          <Button variant="outline" size="sm" title="View Invoice">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            title="View Invoice"
+                          >
                             <Eye className="h-3 w-3" />
                           </Button>
-                          <Button variant="outline" size="sm" title="Download PDF">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            title="Download PDF"
+                          >
                             <Download className="h-3 w-3" />
                           </Button>
                           <Button
@@ -341,7 +421,10 @@ export default function BillingManagement() {
                             <Send className="h-3 w-3" />
                           </Button>
                           {invoice.status === "pending" && (
-                            <Button size="sm" onClick={() => handleMarkAsPaid(invoice._id)}>
+                            <Button
+                              size="sm"
+                              onClick={() => handleMarkAsPaid(invoice._id)}
+                            >
                               Mark Paid
                             </Button>
                           )}
@@ -356,5 +439,5 @@ export default function BillingManagement() {
         </Card>
       </div>
     </ReceptionistLayout>
-  )
+  );
 }

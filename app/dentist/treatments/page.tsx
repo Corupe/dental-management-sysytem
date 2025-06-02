@@ -1,11 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -13,17 +26,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DentistLayout } from "@/components/layouts/dentist-layout"
-import { FileText, Plus, Search, Calendar, User, DollarSign } from "lucide-react"
+} from "../../../components/ui/dialog";
+import { Label } from "../../../components/ui/label";
+import { Textarea } from "../../../components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
+import { DentistLayout } from "../../../components/layouts/dentist-layout";
+import {
+  FileText,
+  Plus,
+  Search,
+  Calendar,
+  User,
+  DollarSign,
+} from "lucide-react";
 
 export default function DentistTreatments() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
-  const [isAddTreatmentOpen, setIsAddTreatmentOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [isAddTreatmentOpen, setIsAddTreatmentOpen] = useState(false);
 
   const treatments = [
     {
@@ -34,7 +60,8 @@ export default function DentistTreatments() {
       tooth: "Upper Right Molar #3",
       status: "completed",
       cost: 250,
-      notes: "Composite filling placed successfully. Patient advised on oral hygiene.",
+      notes:
+        "Composite filling placed successfully. Patient advised on oral hygiene.",
     },
     {
       id: 2,
@@ -76,32 +103,37 @@ export default function DentistTreatments() {
       cost: 300,
       notes: "Simple extraction. Post-op instructions given. Healing well.",
     },
-  ]
+  ];
 
   const filteredTreatments = treatments.filter((treatment) => {
     const matchesSearch =
       treatment.patient.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      treatment.type.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === "all" || treatment.status === statusFilter
-    return matchesSearch && matchesStatus
-  })
+      treatment.type.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || treatment.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "in-progress":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case "planned":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
-  const totalRevenue = treatments.filter((t) => t.status === "completed").reduce((sum, t) => sum + t.cost, 0)
-  const inProgressCount = treatments.filter((t) => t.status === "in-progress").length
-  const plannedCount = treatments.filter((t) => t.status === "planned").length
+  const totalRevenue = treatments
+    .filter((t) => t.status === "completed")
+    .reduce((sum, t) => sum + t.cost, 0);
+  const inProgressCount = treatments.filter(
+    (t) => t.status === "in-progress"
+  ).length;
+  const plannedCount = treatments.filter((t) => t.status === "planned").length;
 
   return (
     <DentistLayout>
@@ -109,10 +141,15 @@ export default function DentistTreatments() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Treatment Records</h1>
-            <p className="text-gray-600">Manage patient treatments and clinical notes</p>
+            <p className="text-gray-600">
+              Manage patient treatments and clinical notes
+            </p>
           </div>
 
-          <Dialog open={isAddTreatmentOpen} onOpenChange={setIsAddTreatmentOpen}>
+          <Dialog
+            open={isAddTreatmentOpen}
+            onOpenChange={setIsAddTreatmentOpen}
+          >
             <DialogTrigger asChild>
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
@@ -122,7 +159,9 @@ export default function DentistTreatments() {
             <DialogContent className="sm:max-w-[600px]">
               <DialogHeader>
                 <DialogTitle>Add Treatment Record</DialogTitle>
-                <DialogDescription>Record a new treatment for a patient</DialogDescription>
+                <DialogDescription>
+                  Record a new treatment for a patient
+                </DialogDescription>
               </DialogHeader>
               <form className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -156,13 +195,18 @@ export default function DentistTreatments() {
                         <SelectItem value="cleaning">Teeth Cleaning</SelectItem>
                         <SelectItem value="root-canal">Root Canal</SelectItem>
                         <SelectItem value="crown">Crown Placement</SelectItem>
-                        <SelectItem value="extraction">Tooth Extraction</SelectItem>
+                        <SelectItem value="extraction">
+                          Tooth Extraction
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
                     <Label htmlFor="tooth">Tooth/Area</Label>
-                    <Input id="tooth" placeholder="e.g., Upper Right Molar #3" />
+                    <Input
+                      id="tooth"
+                      placeholder="e.g., Upper Right Molar #3"
+                    />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -186,10 +230,17 @@ export default function DentistTreatments() {
                 </div>
                 <div>
                   <Label htmlFor="notes">Treatment Notes</Label>
-                  <Textarea id="notes" placeholder="Detailed treatment notes and observations..." />
+                  <Textarea
+                    id="notes"
+                    placeholder="Detailed treatment notes and observations..."
+                  />
                 </div>
                 <div className="flex justify-end gap-2">
-                  <Button type="button" variant="outline" onClick={() => setIsAddTreatmentOpen(false)}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsAddTreatmentOpen(false)}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit">Save Treatment</Button>
@@ -203,7 +254,9 @@ export default function DentistTreatments() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Treatments</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Treatments
+              </CardTitle>
               <FileText className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
@@ -218,8 +271,12 @@ export default function DentistTreatments() {
               <DollarSign className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">From completed treatments</p>
+              <div className="text-2xl font-bold">
+                ${totalRevenue.toLocaleString()}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                From completed treatments
+              </p>
             </CardContent>
           </Card>
 
@@ -241,7 +298,9 @@ export default function DentistTreatments() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{plannedCount}</div>
-              <p className="text-xs text-muted-foreground">Upcoming treatments</p>
+              <p className="text-xs text-muted-foreground">
+                Upcoming treatments
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -250,7 +309,9 @@ export default function DentistTreatments() {
         <Card>
           <CardHeader>
             <CardTitle>Treatment History</CardTitle>
-            <CardDescription>Complete record of all patient treatments</CardDescription>
+            <CardDescription>
+              Complete record of all patient treatments
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex gap-4 mb-6">
@@ -291,12 +352,16 @@ export default function DentistTreatments() {
               <TableBody>
                 {filteredTreatments.map((treatment) => (
                   <TableRow key={treatment.id}>
-                    <TableCell className="font-medium">{treatment.patient}</TableCell>
+                    <TableCell className="font-medium">
+                      {treatment.patient}
+                    </TableCell>
                     <TableCell>{treatment.date}</TableCell>
                     <TableCell>{treatment.type}</TableCell>
                     <TableCell>{treatment.tooth}</TableCell>
                     <TableCell>
-                      <Badge className={getStatusColor(treatment.status)}>{treatment.status}</Badge>
+                      <Badge className={getStatusColor(treatment.status)}>
+                        {treatment.status}
+                      </Badge>
                     </TableCell>
                     <TableCell>${treatment.cost}</TableCell>
                     <TableCell>
@@ -317,5 +382,5 @@ export default function DentistTreatments() {
         </Card>
       </div>
     </DentistLayout>
-  )
+  );
 }

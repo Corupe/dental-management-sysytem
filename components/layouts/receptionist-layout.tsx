@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import type { ReactNode } from "react"
+import type { ReactNode } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -15,9 +15,17 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { LayoutDashboard, Calendar, Users, DollarSign, UserPlus, LogOut, SmileIcon as Tooth } from "lucide-react"
-import Link from "next/link"
+} from "../ui/sidebar";
+import {
+  LayoutDashboard,
+  Calendar,
+  Users,
+  DollarSign,
+  UserPlus,
+  LogOut,
+  SmileIcon as Tooth,
+} from "lucide-react";
+import Link from "next/link";
 
 const menuItems = [
   {
@@ -45,10 +53,10 @@ const menuItems = [
     url: "/receptionist/checkin",
     icon: UserPlus,
   },
-]
+];
 
 interface ReceptionistLayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function ReceptionistLayout({ children }: ReceptionistLayoutProps) {
@@ -88,7 +96,13 @@ export function ReceptionistLayout({ children }: ReceptionistLayoutProps) {
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton>
+              <SidebarMenuButton
+                onClick={() => {
+                  fetch("/api/auth/logout", {
+                    method: "POST",
+                  });
+                }}
+              >
                 <LogOut />
                 <span>Logout</span>
               </SidebarMenuButton>
@@ -103,5 +117,5 @@ export function ReceptionistLayout({ children }: ReceptionistLayoutProps) {
         <main className="flex-1 p-6">{children}</main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

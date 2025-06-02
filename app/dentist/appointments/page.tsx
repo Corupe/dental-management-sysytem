@@ -1,17 +1,31 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Calendar } from "@/components/ui/calendar"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DentistLayout } from "@/components/layouts/dentist-layout"
-import { CalendarIcon, Clock, User, FileText, Phone } from "lucide-react"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Badge } from "../../../components/ui/badge";
+import { Calendar } from "../../../components/ui/calendar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
+import { DentistLayout } from "../../../components/layouts/dentist-layout";
+import { CalendarIcon, Clock, User, FileText, Phone } from "lucide-react";
 
 export default function DentistAppointments() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
-  const [viewMode, setViewMode] = useState("day")
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    new Date()
+  );
+  const [viewMode, setViewMode] = useState("day");
 
   const appointments = [
     {
@@ -64,35 +78,35 @@ export default function DentistAppointments() {
       status: "pending",
       notes: "Orthodontic consultation",
     },
-  ]
+  ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "pending":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "completed":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case "cancelled":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   const getTimeSlotColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "border-l-green-500 bg-green-50"
+        return "border-l-green-500 bg-green-50";
       case "pending":
-        return "border-l-yellow-500 bg-yellow-50"
+        return "border-l-yellow-500 bg-yellow-50";
       case "completed":
-        return "border-l-blue-500 bg-blue-50"
+        return "border-l-blue-500 bg-blue-50";
       default:
-        return "border-l-gray-500 bg-gray-50"
+        return "border-l-gray-500 bg-gray-50";
     }
-  }
+  };
 
   return (
     <DentistLayout>
@@ -100,7 +114,9 @@ export default function DentistAppointments() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">My Appointments</h1>
-            <p className="text-gray-600">Manage your daily schedule and patient appointments</p>
+            <p className="text-gray-600">
+              Manage your daily schedule and patient appointments
+            </p>
           </div>
           <div className="flex gap-2">
             <Select value={viewMode} onValueChange={setViewMode}>
@@ -157,14 +173,18 @@ export default function DentistAppointments() {
                 <Clock className="h-5 w-5" />
                 Today's Schedule - {selectedDate?.toLocaleDateString()}
               </CardTitle>
-              <CardDescription>Your appointments for the selected day</CardDescription>
+              <CardDescription>
+                Your appointments for the selected day
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {appointments.map((appointment) => (
                   <div
                     key={appointment.id}
-                    className={`p-4 border-l-4 rounded-lg ${getTimeSlotColor(appointment.status)}`}
+                    className={`p-4 border-l-4 rounded-lg ${getTimeSlotColor(
+                      appointment.status
+                    )}`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -175,13 +195,17 @@ export default function DentistAppointments() {
                               {appointment.time} ({appointment.duration} min)
                             </span>
                           </div>
-                          <Badge className={getStatusColor(appointment.status)}>{appointment.status}</Badge>
+                          <Badge className={getStatusColor(appointment.status)}>
+                            {appointment.status}
+                          </Badge>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <div className="flex items-center gap-2 mb-1">
                               <User className="h-4 w-4 text-gray-500" />
-                              <span className="font-medium">{appointment.patient}</span>
+                              <span className="font-medium">
+                                {appointment.patient}
+                              </span>
                             </div>
                             <div className="flex items-center gap-2 text-sm text-gray-600">
                               <Phone className="h-4 w-4" />
@@ -189,8 +213,12 @@ export default function DentistAppointments() {
                             </div>
                           </div>
                           <div>
-                            <p className="font-medium text-sm">{appointment.type}</p>
-                            <p className="text-sm text-gray-600">{appointment.notes}</p>
+                            <p className="font-medium text-sm">
+                              {appointment.type}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              {appointment.notes}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -203,8 +231,12 @@ export default function DentistAppointments() {
                           <User className="h-4 w-4 mr-1" />
                           Patient
                         </Button>
-                        {appointment.status === "pending" && <Button size="sm">Confirm</Button>}
-                        {appointment.status === "confirmed" && <Button size="sm">Start</Button>}
+                        {appointment.status === "pending" && (
+                          <Button size="sm">Confirm</Button>
+                        )}
+                        {appointment.status === "confirmed" && (
+                          <Button size="sm">Start</Button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -218,26 +250,36 @@ export default function DentistAppointments() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Today's Appointments</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Today's Appointments
+              </CardTitle>
               <CalendarIcon className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{appointments.length}</div>
               <p className="text-xs text-muted-foreground">
-                {appointments.filter((a) => a.status === "confirmed").length} confirmed
+                {appointments.filter((a) => a.status === "confirmed").length}{" "}
+                confirmed
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Duration</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Duration
+              </CardTitle>
               <Clock className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{appointments.reduce((sum, apt) => sum + apt.duration, 0)} min</div>
+              <div className="text-2xl font-bold">
+                {appointments.reduce((sum, apt) => sum + apt.duration, 0)} min
+              </div>
               <p className="text-xs text-muted-foreground">
-                {Math.round(appointments.reduce((sum, apt) => sum + apt.duration, 0) / 60)} hours total
+                {Math.round(
+                  appointments.reduce((sum, apt) => sum + apt.duration, 0) / 60
+                )}{" "}
+                hours total
               </p>
             </CardContent>
           </Card>
@@ -248,23 +290,29 @@ export default function DentistAppointments() {
               <Clock className="h-4 w-4 text-yellow-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{appointments.filter((a) => a.status === "pending").length}</div>
+              <div className="text-2xl font-bold">
+                {appointments.filter((a) => a.status === "pending").length}
+              </div>
               <p className="text-xs text-muted-foreground">Need confirmation</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Next Patient</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Next Patient
+              </CardTitle>
               <User className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
               <div className="text-lg font-bold">{appointments[0]?.time}</div>
-              <p className="text-xs text-muted-foreground">{appointments[0]?.patient}</p>
+              <p className="text-xs text-muted-foreground">
+                {appointments[0]?.patient}
+              </p>
             </CardContent>
           </Card>
         </div>
       </div>
     </DentistLayout>
-  )
+  );
 }

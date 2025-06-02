@@ -1,8 +1,21 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Calendar, FileText, DollarSign, Clock, Download, Upload } from "lucide-react"
-import { PatientLayout } from "@/components/layouts/patient-layout"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
+import { Button } from "../../../components/ui/button";
+import {
+  Calendar,
+  FileText,
+  DollarSign,
+  Clock,
+  Download,
+  Upload,
+} from "lucide-react";
+import { PatientLayout } from "../../../components/layouts/patient-layout";
 
 export default function PatientDashboard() {
   const upcomingAppointments = [
@@ -20,7 +33,7 @@ export default function PatientDashboard() {
       type: "Teeth Cleaning",
       status: "pending",
     },
-  ]
+  ];
 
   const recentTreatments = [
     {
@@ -35,7 +48,7 @@ export default function PatientDashboard() {
       dentist: "Dr. Johnson",
       status: "completed",
     },
-  ]
+  ];
 
   const pendingBills = [
     {
@@ -52,52 +65,62 @@ export default function PatientDashboard() {
       description: "Routine Checkup",
       status: "overdue",
     },
-  ]
+  ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "pending":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "completed":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case "overdue":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <PatientLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Welcome back, John!</h1>
-          <p className="text-gray-600">Here's an overview of your dental care</p>
+          <p className="text-gray-600">
+            Here's an overview of your dental care
+          </p>
         </div>
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Next Appointment</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Next Appointment
+              </CardTitle>
               <Calendar className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
               <div className="text-lg font-bold">Jan 20, 2024</div>
-              <p className="text-xs text-muted-foreground">10:00 AM with Dr. Johnson</p>
+              <p className="text-xs text-muted-foreground">
+                10:00 AM with Dr. Johnson
+              </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Outstanding Balance</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Outstanding Balance
+              </CardTitle>
               <DollarSign className="h-4 w-4 text-yellow-600" />
             </CardHeader>
             <CardContent>
               <div className="text-lg font-bold">$225.00</div>
-              <p className="text-xs text-muted-foreground">2 pending invoices</p>
+              <p className="text-xs text-muted-foreground">
+                2 pending invoices
+              </p>
             </CardContent>
           </Card>
 
@@ -126,16 +149,23 @@ export default function PatientDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {upcomingAppointments.map((appointment, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium">{appointment.date}</span>
-                        <Badge className={getStatusColor(appointment.status)}>{appointment.status}</Badge>
+                        <Badge className={getStatusColor(appointment.status)}>
+                          {appointment.status}
+                        </Badge>
                       </div>
                       <p className="text-sm">
                         {appointment.time} - {appointment.type}
                       </p>
-                      <p className="text-xs text-gray-500">{appointment.dentist}</p>
+                      <p className="text-xs text-gray-500">
+                        {appointment.dentist}
+                      </p>
                     </div>
                     <div className="flex gap-2">
                       <Button variant="outline" size="sm">
@@ -167,14 +197,23 @@ export default function PatientDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {recentTreatments.map((treatment, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium">{treatment.treatment}</span>
-                        <Badge className={getStatusColor(treatment.status)}>{treatment.status}</Badge>
+                        <span className="font-medium">
+                          {treatment.treatment}
+                        </span>
+                        <Badge className={getStatusColor(treatment.status)}>
+                          {treatment.status}
+                        </Badge>
                       </div>
                       <p className="text-sm">{treatment.date}</p>
-                      <p className="text-xs text-gray-500">{treatment.dentist}</p>
+                      <p className="text-xs text-gray-500">
+                        {treatment.dentist}
+                      </p>
                     </div>
                     <Button variant="outline" size="sm">
                       View Details
@@ -197,16 +236,23 @@ export default function PatientDashboard() {
                 <DollarSign className="h-5 w-5" />
                 Pending Bills
               </CardTitle>
-              <CardDescription>Outstanding invoices and payments</CardDescription>
+              <CardDescription>
+                Outstanding invoices and payments
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {pendingBills.map((bill, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium">{bill.id}</span>
-                        <Badge className={getStatusColor(bill.status)}>{bill.status}</Badge>
+                        <Badge className={getStatusColor(bill.status)}>
+                          {bill.status}
+                        </Badge>
                       </div>
                       <p className="text-sm">{bill.description}</p>
                       <p className="text-xs text-gray-500">{bill.date}</p>
@@ -237,21 +283,33 @@ export default function PatientDashboard() {
                   <Calendar className="h-5 w-5" />
                   <div className="text-left">
                     <div className="font-medium">Book Appointment</div>
-                    <div className="text-xs opacity-70">Schedule your next visit</div>
+                    <div className="text-xs opacity-70">
+                      Schedule your next visit
+                    </div>
                   </div>
                 </Button>
-                <Button variant="outline" className="h-16 flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  className="h-16 flex items-center gap-3"
+                >
                   <Upload className="h-5 w-5" />
                   <div className="text-left">
                     <div className="font-medium">Upload Documents</div>
-                    <div className="text-xs opacity-70">Insurance or medical files</div>
+                    <div className="text-xs opacity-70">
+                      Insurance or medical files
+                    </div>
                   </div>
                 </Button>
-                <Button variant="outline" className="h-16 flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  className="h-16 flex items-center gap-3"
+                >
                   <FileText className="h-5 w-5" />
                   <div className="text-left">
                     <div className="font-medium">View Records</div>
-                    <div className="text-xs opacity-70">Access your medical history</div>
+                    <div className="text-xs opacity-70">
+                      Access your medical history
+                    </div>
                   </div>
                 </Button>
               </div>
@@ -260,5 +318,5 @@ export default function PatientDashboard() {
         </div>
       </div>
     </PatientLayout>
-  )
+  );
 }

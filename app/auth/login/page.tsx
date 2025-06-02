@@ -1,63 +1,69 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { SmileIcon as Tooth } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
+import { SmileIcon as Tooth } from "lucide-react";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
         // Redirect based on role
         switch (data.user.role) {
           case "admin":
-            router.push("/admin/dashboard")
-            break
+            router.push("/admin/dashboard");
+            break;
           case "dentist":
-            router.push("/dentist/dashboard")
-            break
+            router.push("/dentist/dashboard");
+            break;
           case "receptionist":
-            router.push("/receptionist/dashboard")
-            break
+            router.push("/receptionist/dashboard");
+            break;
           case "patient":
-            router.push("/patient/dashboard")
-            break
+            router.push("/patient/dashboard");
+            break;
         }
       } else {
-        setError(data.error || "Login failed")
+        setError(data.error || "Login failed");
       }
     } catch (err) {
-      setError("An error occurred. Please try again.")
+      setError("An error occurred. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
@@ -69,7 +75,9 @@ export default function LoginPage() {
             </div>
           </div>
           <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-          <CardDescription>Sign in to your dental clinic account</CardDescription>
+          <CardDescription>
+            Sign in to your dental clinic account
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -109,12 +117,18 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-6 text-center space-y-2">
-            <Link href="/auth/forgot-password" className="text-sm text-blue-600 hover:underline">
+            <Link
+              href="/auth/forgot-password"
+              className="text-sm text-blue-600 hover:underline"
+            >
               Forgot your password?
             </Link>
             <div className="text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link href="/auth/register" className="text-blue-600 hover:underline">
+              <Link
+                href="/auth/register"
+                className="text-blue-600 hover:underline"
+              >
                 Register as Patient
               </Link>
             </div>
@@ -130,7 +144,8 @@ export default function LoginPage() {
                 <strong>Dentist:</strong> dentist@clinic.com / dentist123
               </div>
               <div>
-                <strong>Receptionist:</strong> reception@clinic.com / reception123
+                <strong>Receptionist:</strong> reception@clinic.com /
+                reception123
               </div>
               <div>
                 <strong>Patient:</strong> patient@clinic.com / patient123
@@ -140,5 +155,5 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

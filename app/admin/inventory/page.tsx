@@ -1,13 +1,26 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -15,17 +28,27 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { AdminLayout } from "@/components/layouts/admin-layout"
-import { Package, Plus, Search, AlertTriangle, TrendingDown, TrendingUp, Edit, Trash2, Loader2 } from "lucide-react"
-import { useInventory } from "@/hooks/use-inventory"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+} from "../../../components/ui/dialog";
+import { Label } from "../../../components/ui/label";
+import { AdminLayout } from "../../../components/layouts/admin-layout";
+import {
+  Package,
+  Plus,
+  Search,
+  AlertTriangle,
+  TrendingDown,
+  TrendingUp,
+  Edit,
+  Trash2,
+  Loader2,
+} from "lucide-react";
+import { useInventory } from "../../../hooks/use-inventory";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
 
 export default function InventoryManagement() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [isAddItemOpen, setIsAddItemOpen] = useState(false)
-  const [editingItem, setEditingItem] = useState<any>(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isAddItemOpen, setIsAddItemOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -36,33 +59,34 @@ export default function InventoryManagement() {
     supplier: "",
     cost: 0,
     expiryDate: "",
-  })
+  });
 
-  const { items, loading, error, createItem, updateItem, deleteItem } = useInventory()
+  const { items, loading, error, createItem, updateItem, deleteItem } =
+    useInventory();
 
   const filteredItems = items.filter(
     (item: any) =>
       item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category?.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      item.category?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (editingItem) {
-      const success = await updateItem(editingItem._id, formData)
+      const success = await updateItem(editingItem._id, formData);
       if (success) {
-        setEditingItem(null)
-        resetForm()
+        setEditingItem(null);
+        resetForm();
       }
     } else {
-      const success = await createItem(formData)
+      const success = await createItem(formData);
       if (success) {
-        setIsAddItemOpen(false)
-        resetForm()
+        setIsAddItemOpen(false);
+        resetForm();
       }
     }
-  }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -75,11 +99,11 @@ export default function InventoryManagement() {
       supplier: "",
       cost: 0,
       expiryDate: "",
-    })
-  }
+    });
+  };
 
   const handleEdit = (item: any) => {
-    setEditingItem(item)
+    setEditingItem(item);
     setFormData({
       name: item.name || "",
       category: item.category || "",
@@ -90,23 +114,30 @@ export default function InventoryManagement() {
       supplier: item.supplier || "",
       cost: item.cost || 0,
       expiryDate: item.expiryDate || "",
-    })
-  }
+    });
+  };
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this item?")) {
-      await deleteItem(id)
+      await deleteItem(id);
     }
-  }
+  };
 
   const getStockStatus = (current: number, min: number) => {
-    if (current <= min) return { status: "low", color: "bg-red-100 text-red-800" }
-    if (current <= min * 1.5) return { status: "medium", color: "bg-yellow-100 text-yellow-800" }
-    return { status: "good", color: "bg-green-100 text-green-800" }
-  }
+    if (current <= min)
+      return { status: "low", color: "bg-red-100 text-red-800" };
+    if (current <= min * 1.5)
+      return { status: "medium", color: "bg-yellow-100 text-yellow-800" };
+    return { status: "good", color: "bg-green-100 text-green-800" };
+  };
 
-  const lowStockItems = items.filter((item: any) => item.currentStock <= item.minStock)
-  const totalValue = items.reduce((sum: number, item: any) => sum + item.currentStock * item.cost, 0)
+  const lowStockItems = items.filter(
+    (item: any) => item.currentStock <= item.minStock
+  );
+  const totalValue = items.reduce(
+    (sum: number, item: any) => sum + item.currentStock * item.cost,
+    0
+  );
 
   if (loading) {
     return (
@@ -115,7 +146,7 @@ export default function InventoryManagement() {
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       </AdminLayout>
-    )
+    );
   }
 
   return (
@@ -137,7 +168,9 @@ export default function InventoryManagement() {
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
                 <DialogTitle>Add Inventory Item</DialogTitle>
-                <DialogDescription>Add a new item to your inventory</DialogDescription>
+                <DialogDescription>
+                  Add a new item to your inventory
+                </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -146,7 +179,9 @@ export default function InventoryManagement() {
                     <Input
                       id="name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -155,7 +190,9 @@ export default function InventoryManagement() {
                     <Input
                       id="category"
                       value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, category: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -167,7 +204,12 @@ export default function InventoryManagement() {
                       id="currentStock"
                       type="number"
                       value={formData.currentStock}
-                      onChange={(e) => setFormData({ ...formData, currentStock: Number.parseInt(e.target.value) })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          currentStock: Number.parseInt(e.target.value),
+                        })
+                      }
                       required
                     />
                   </div>
@@ -177,7 +219,12 @@ export default function InventoryManagement() {
                       id="minStock"
                       type="number"
                       value={formData.minStock}
-                      onChange={(e) => setFormData({ ...formData, minStock: Number.parseInt(e.target.value) })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          minStock: Number.parseInt(e.target.value),
+                        })
+                      }
                       required
                     />
                   </div>
@@ -187,7 +234,12 @@ export default function InventoryManagement() {
                       id="maxStock"
                       type="number"
                       value={formData.maxStock}
-                      onChange={(e) => setFormData({ ...formData, maxStock: Number.parseInt(e.target.value) })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          maxStock: Number.parseInt(e.target.value),
+                        })
+                      }
                       required
                     />
                   </div>
@@ -198,7 +250,9 @@ export default function InventoryManagement() {
                     <Input
                       id="unit"
                       value={formData.unit}
-                      onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, unit: e.target.value })
+                      }
                       placeholder="e.g., boxes, units"
                       required
                     />
@@ -210,7 +264,12 @@ export default function InventoryManagement() {
                       type="number"
                       step="0.01"
                       value={formData.cost}
-                      onChange={(e) => setFormData({ ...formData, cost: Number.parseFloat(e.target.value) })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          cost: Number.parseFloat(e.target.value),
+                        })
+                      }
                       required
                     />
                   </div>
@@ -221,7 +280,9 @@ export default function InventoryManagement() {
                     <Input
                       id="supplier"
                       value={formData.supplier}
-                      onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, supplier: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -231,12 +292,18 @@ export default function InventoryManagement() {
                       id="expiryDate"
                       type="date"
                       value={formData.expiryDate}
-                      onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, expiryDate: e.target.value })
+                      }
                     />
                   </div>
                 </div>
                 <div className="flex justify-end gap-2">
-                  <Button type="button" variant="outline" onClick={() => setIsAddItemOpen(false)}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsAddItemOpen(false)}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit">Add Item</Button>
@@ -261,18 +328,24 @@ export default function InventoryManagement() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{items.length}</div>
-              <p className="text-xs text-muted-foreground">Active inventory items</p>
+              <p className="text-xs text-muted-foreground">
+                Active inventory items
+              </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Low Stock Alerts</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Low Stock Alerts
+              </CardTitle>
               <AlertTriangle className="h-4 w-4 text-red-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{lowStockItems.length}</div>
-              <p className="text-xs text-muted-foreground">Items need reordering</p>
+              <p className="text-xs text-muted-foreground">
+                Items need reordering
+              </p>
             </CardContent>
           </Card>
 
@@ -283,7 +356,9 @@ export default function InventoryManagement() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">${totalValue.toFixed(2)}</div>
-              <p className="text-xs text-muted-foreground">Current inventory value</p>
+              <p className="text-xs text-muted-foreground">
+                Current inventory value
+              </p>
             </CardContent>
           </Card>
 
@@ -293,8 +368,12 @@ export default function InventoryManagement() {
               <TrendingDown className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{[...new Set(items.map((item: any) => item.category))].length}</div>
-              <p className="text-xs text-muted-foreground">Product categories</p>
+              <div className="text-2xl font-bold">
+                {[...new Set(items.map((item: any) => item.category))].length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Product categories
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -307,16 +386,22 @@ export default function InventoryManagement() {
                 <AlertTriangle className="h-5 w-5" />
                 Low Stock Alerts
               </CardTitle>
-              <CardDescription>Items that need immediate attention</CardDescription>
+              <CardDescription>
+                Items that need immediate attention
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
                 {lowStockItems.map((item: any) => (
-                  <div key={item._id} className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                  <div
+                    key={item._id}
+                    className="flex items-center justify-between p-3 bg-red-50 rounded-lg"
+                  >
                     <div>
                       <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-gray-600">
-                        Current: {item.currentStock} {item.unit} | Min: {item.minStock} {item.unit}
+                        Current: {item.currentStock} {item.unit} | Min:{" "}
+                        {item.minStock} {item.unit}
                       </p>
                     </div>
                     <Button size="sm">Reorder</Button>
@@ -331,7 +416,9 @@ export default function InventoryManagement() {
         <Card>
           <CardHeader>
             <CardTitle>Inventory Items</CardTitle>
-            <CardDescription>Complete list of dental supplies and equipment</CardDescription>
+            <CardDescription>
+              Complete list of dental supplies and equipment
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex gap-4 mb-6">
@@ -360,7 +447,10 @@ export default function InventoryManagement() {
               </TableHeader>
               <TableBody>
                 {filteredItems.map((item: any) => {
-                  const stockStatus = getStockStatus(item.currentStock, item.minStock)
+                  const stockStatus = getStockStatus(
+                    item.currentStock,
+                    item.minStock
+                  );
                   return (
                     <TableRow key={item._id}>
                       <TableCell className="font-medium">{item.name}</TableCell>
@@ -369,22 +459,32 @@ export default function InventoryManagement() {
                         {item.currentStock} {item.unit}
                       </TableCell>
                       <TableCell>
-                        <Badge className={stockStatus.color}>{stockStatus.status}</Badge>
+                        <Badge className={stockStatus.color}>
+                          {stockStatus.status}
+                        </Badge>
                       </TableCell>
                       <TableCell>{item.supplier}</TableCell>
                       <TableCell>${item.cost?.toFixed(2)}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
-                          <Button variant="outline" size="sm" onClick={() => handleEdit(item)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(item)}
+                          >
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button variant="outline" size="sm" onClick={() => handleDelete(item._id)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(item._id)}
+                          >
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
               </TableBody>
             </Table>
@@ -405,7 +505,9 @@ export default function InventoryManagement() {
                   <Input
                     id="editName"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -414,7 +516,9 @@ export default function InventoryManagement() {
                   <Input
                     id="editCategory"
                     value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -426,7 +530,12 @@ export default function InventoryManagement() {
                     id="editCurrentStock"
                     type="number"
                     value={formData.currentStock}
-                    onChange={(e) => setFormData({ ...formData, currentStock: Number.parseInt(e.target.value) })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        currentStock: Number.parseInt(e.target.value),
+                      })
+                    }
                     required
                   />
                 </div>
@@ -436,7 +545,12 @@ export default function InventoryManagement() {
                     id="editMinStock"
                     type="number"
                     value={formData.minStock}
-                    onChange={(e) => setFormData({ ...formData, minStock: Number.parseInt(e.target.value) })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        minStock: Number.parseInt(e.target.value),
+                      })
+                    }
                     required
                   />
                 </div>
@@ -446,7 +560,12 @@ export default function InventoryManagement() {
                     id="editMaxStock"
                     type="number"
                     value={formData.maxStock}
-                    onChange={(e) => setFormData({ ...formData, maxStock: Number.parseInt(e.target.value) })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        maxStock: Number.parseInt(e.target.value),
+                      })
+                    }
                     required
                   />
                 </div>
@@ -457,7 +576,9 @@ export default function InventoryManagement() {
                   <Input
                     id="editUnit"
                     value={formData.unit}
-                    onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, unit: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -468,7 +589,12 @@ export default function InventoryManagement() {
                     type="number"
                     step="0.01"
                     value={formData.cost}
-                    onChange={(e) => setFormData({ ...formData, cost: Number.parseFloat(e.target.value) })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cost: Number.parseFloat(e.target.value),
+                      })
+                    }
                     required
                   />
                 </div>
@@ -479,7 +605,9 @@ export default function InventoryManagement() {
                   <Input
                     id="editSupplier"
                     value={formData.supplier}
-                    onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, supplier: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -489,12 +617,18 @@ export default function InventoryManagement() {
                     id="editExpiryDate"
                     type="date"
                     value={formData.expiryDate}
-                    onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, expiryDate: e.target.value })
+                    }
                   />
                 </div>
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setEditingItem(null)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setEditingItem(null)}
+                >
                   Cancel
                 </Button>
                 <Button type="submit">Update Item</Button>
@@ -504,5 +638,5 @@ export default function InventoryManagement() {
         </Dialog>
       </div>
     </AdminLayout>
-  )
+  );
 }

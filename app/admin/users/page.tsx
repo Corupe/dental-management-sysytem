@@ -1,13 +1,26 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -15,19 +28,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { AdminLayout } from "@/components/layouts/admin-layout"
-import { UserPlus, Search, Edit, Trash2, Loader2 } from "lucide-react"
-import { useUsers } from "@/hooks/use-users"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+} from "../../../components/ui/dialog";
+import { Label } from "../../../components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
+import { AdminLayout } from "../../../components/layouts/admin-layout";
+import { UserPlus, Search, Edit, Trash2, Loader2 } from "lucide-react";
+import { useUsers } from "../../../hooks/use-users";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
 
 export default function UsersManagement() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedRole, setSelectedRole] = useState("all")
-  const [isAddUserOpen, setIsAddUserOpen] = useState(false)
-  const [editingUser, setEditingUser] = useState<any>(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState("all");
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<any>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -35,39 +54,54 @@ export default function UsersManagement() {
     phone: "",
     role: "",
     password: "",
-  })
+  });
 
-  const { users, loading, error, createUser, updateUser, deleteUser } = useUsers()
+  const { users, loading, error, createUser, updateUser, deleteUser } =
+    useUsers();
 
   const filteredUsers = users.filter((user: any) => {
     const matchesSearch =
       user.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email?.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesRole = selectedRole === "all" || user.role === selectedRole
-    return matchesSearch && matchesRole
-  })
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = selectedRole === "all" || user.role === selectedRole;
+    return matchesSearch && matchesRole;
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (editingUser) {
-      const success = await updateUser(editingUser._id, formData)
+      const success = await updateUser(editingUser._id, formData);
       if (success) {
-        setEditingUser(null)
-        setFormData({ firstName: "", lastName: "", email: "", phone: "", role: "", password: "" })
+        setEditingUser(null);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          role: "",
+          password: "",
+        });
       }
     } else {
-      const success = await createUser(formData)
+      const success = await createUser(formData);
       if (success) {
-        setIsAddUserOpen(false)
-        setFormData({ firstName: "", lastName: "", email: "", phone: "", role: "", password: "" })
+        setIsAddUserOpen(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          role: "",
+          password: "",
+        });
       }
     }
-  }
+  };
 
   const handleEdit = (user: any) => {
-    setEditingUser(user)
+    setEditingUser(user);
     setFormData({
       firstName: user.firstName || "",
       lastName: user.lastName || "",
@@ -75,27 +109,27 @@ export default function UsersManagement() {
       phone: user.phone || "",
       role: user.role || "",
       password: "",
-    })
-  }
+    });
+  };
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this user?")) {
-      await deleteUser(id)
+      await deleteUser(id);
     }
-  }
+  };
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
       case "admin":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       case "dentist":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case "receptionist":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -104,7 +138,7 @@ export default function UsersManagement() {
           <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       </AdminLayout>
-    )
+    );
   }
 
   return (
@@ -113,7 +147,9 @@ export default function UsersManagement() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">User Management</h1>
-            <p className="text-gray-600">Manage staff members and their permissions</p>
+            <p className="text-gray-600">
+              Manage staff members and their permissions
+            </p>
           </div>
 
           <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
@@ -126,7 +162,9 @@ export default function UsersManagement() {
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Add New User</DialogTitle>
-                <DialogDescription>Create a new staff member account</DialogDescription>
+                <DialogDescription>
+                  Create a new staff member account
+                </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -135,7 +173,9 @@ export default function UsersManagement() {
                     <Input
                       id="firstName"
                       value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, firstName: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -144,7 +184,9 @@ export default function UsersManagement() {
                     <Input
                       id="lastName"
                       value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lastName: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -155,7 +197,9 @@ export default function UsersManagement() {
                     id="email"
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -164,13 +208,20 @@ export default function UsersManagement() {
                   <Input
                     id="phone"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                     required
                   />
                 </div>
                 <div>
                   <Label htmlFor="role">Role</Label>
-                  <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
+                  <Select
+                    value={formData.role}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, role: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select role" />
                     </SelectTrigger>
@@ -187,12 +238,18 @@ export default function UsersManagement() {
                     id="password"
                     type="password"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     required
                   />
                 </div>
                 <div className="flex justify-end gap-2">
-                  <Button type="button" variant="outline" onClick={() => setIsAddUserOpen(false)}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsAddUserOpen(false)}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit">Create User</Button>
@@ -211,7 +268,9 @@ export default function UsersManagement() {
         <Card>
           <CardHeader>
             <CardTitle>Staff Members</CardTitle>
-            <CardDescription>Manage your clinic's staff members and their access levels</CardDescription>
+            <CardDescription>
+              Manage your clinic's staff members and their access levels
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {/* Filters */}
@@ -258,14 +317,24 @@ export default function UsersManagement() {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.phone}</TableCell>
                     <TableCell>
-                      <Badge className={getRoleBadgeColor(user.role)}>{user.role}</Badge>
+                      <Badge className={getRoleBadgeColor(user.role)}>
+                        {user.role}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEdit(user)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEdit(user)}
+                        >
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleDelete(user._id)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDelete(user._id)}
+                        >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
@@ -291,7 +360,9 @@ export default function UsersManagement() {
                   <Input
                     id="editFirstName"
                     value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, firstName: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -300,7 +371,9 @@ export default function UsersManagement() {
                   <Input
                     id="editLastName"
                     value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, lastName: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -311,7 +384,9 @@ export default function UsersManagement() {
                   id="editEmail"
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -320,13 +395,20 @@ export default function UsersManagement() {
                 <Input
                   id="editPhone"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   required
                 />
               </div>
               <div>
                 <Label htmlFor="editRole">Role</Label>
-                <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
+                <Select
+                  value={formData.role}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, role: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
@@ -338,7 +420,11 @@ export default function UsersManagement() {
                 </Select>
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setEditingUser(null)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setEditingUser(null)}
+                >
                   Cancel
                 </Button>
                 <Button type="submit">Update User</Button>
@@ -348,5 +434,5 @@ export default function UsersManagement() {
         </Dialog>
       </div>
     </AdminLayout>
-  )
+  );
 }

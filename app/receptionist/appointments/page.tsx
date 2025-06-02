@@ -1,11 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Calendar } from "@/components/ui/calendar"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Badge } from "../../../components/ui/badge";
+import { Calendar } from "../../../components/ui/calendar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -13,17 +25,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { ReceptionistLayout } from "@/components/layouts/receptionist-layout"
-import { CalendarIcon, Clock, Plus, Phone, User, Edit } from "lucide-react"
+} from "../../../components/ui/dialog";
+import { Label } from "../../../components/ui/label";
+import { Input } from "../../../components/ui/input";
+import { Textarea } from "../../../components/ui/textarea";
+import { ReceptionistLayout } from "../../../components/layouts/receptionist-layout";
+import { CalendarIcon, Clock, Plus, Phone, User, Edit } from "lucide-react";
 
 export default function ReceptionistAppointments() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
-  const [viewMode, setViewMode] = useState("day")
-  const [isBookingOpen, setIsBookingOpen] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    new Date()
+  );
+  const [viewMode, setViewMode] = useState("day");
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const appointments = [
     {
@@ -81,7 +95,7 @@ export default function ReceptionistAppointments() {
       status: "confirmed",
       notes: "Crown placement procedure",
     },
-  ]
+  ];
 
   const timeSlots = [
     "09:00",
@@ -96,13 +110,13 @@ export default function ReceptionistAppointments() {
     "15:30",
     "16:00",
     "16:30",
-  ]
+  ];
 
   const dentists = [
     { id: "1", name: "Dr. Johnson" },
     { id: "2", name: "Dr. Chen" },
     { id: "3", name: "Dr. Smith" },
-  ]
+  ];
 
   const appointmentTypes = [
     "Routine Checkup",
@@ -113,35 +127,35 @@ export default function ReceptionistAppointments() {
     "Tooth Extraction",
     "Consultation",
     "Emergency",
-  ]
+  ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "pending":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "completed":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case "cancelled":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   const getTimeSlotColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "border-l-green-500 bg-green-50"
+        return "border-l-green-500 bg-green-50";
       case "pending":
-        return "border-l-yellow-500 bg-yellow-50"
+        return "border-l-yellow-500 bg-yellow-50";
       case "completed":
-        return "border-l-blue-500 bg-blue-50"
+        return "border-l-blue-500 bg-blue-50";
       default:
-        return "border-l-gray-500 bg-gray-50"
+        return "border-l-gray-500 bg-gray-50";
     }
-  }
+  };
 
   return (
     <ReceptionistLayout>
@@ -149,7 +163,9 @@ export default function ReceptionistAppointments() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Appointment Management</h1>
-            <p className="text-gray-600">Schedule and manage patient appointments</p>
+            <p className="text-gray-600">
+              Schedule and manage patient appointments
+            </p>
           </div>
           <div className="flex gap-2">
             <Select value={viewMode} onValueChange={setViewMode}>
@@ -173,7 +189,9 @@ export default function ReceptionistAppointments() {
               <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                   <DialogTitle>Book New Appointment</DialogTitle>
-                  <DialogDescription>Schedule an appointment for a patient</DialogDescription>
+                  <DialogDescription>
+                    Schedule an appointment for a patient
+                  </DialogDescription>
                 </DialogHeader>
                 <form className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
@@ -241,10 +259,17 @@ export default function ReceptionistAppointments() {
                   </div>
                   <div>
                     <Label htmlFor="notes">Notes</Label>
-                    <Textarea id="notes" placeholder="Additional notes or special instructions" />
+                    <Textarea
+                      id="notes"
+                      placeholder="Additional notes or special instructions"
+                    />
                   </div>
                   <div className="flex justify-end gap-2">
-                    <Button type="button" variant="outline" onClick={() => setIsBookingOpen(false)}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setIsBookingOpen(false)}
+                    >
                       Cancel
                     </Button>
                     <Button type="submit">Book Appointment</Button>
@@ -303,7 +328,9 @@ export default function ReceptionistAppointments() {
                 {appointments.map((appointment) => (
                   <div
                     key={appointment.id}
-                    className={`p-4 border-l-4 rounded-lg ${getTimeSlotColor(appointment.status)}`}
+                    className={`p-4 border-l-4 rounded-lg ${getTimeSlotColor(
+                      appointment.status
+                    )}`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -314,13 +341,17 @@ export default function ReceptionistAppointments() {
                               {appointment.time} ({appointment.duration} min)
                             </span>
                           </div>
-                          <Badge className={getStatusColor(appointment.status)}>{appointment.status}</Badge>
+                          <Badge className={getStatusColor(appointment.status)}>
+                            {appointment.status}
+                          </Badge>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           <div>
                             <div className="flex items-center gap-2 mb-1">
                               <User className="h-4 w-4 text-gray-500" />
-                              <span className="font-medium">{appointment.patient}</span>
+                              <span className="font-medium">
+                                {appointment.patient}
+                              </span>
                             </div>
                             <div className="flex items-center gap-2 text-sm text-gray-600">
                               <Phone className="h-4 w-4" />
@@ -328,11 +359,17 @@ export default function ReceptionistAppointments() {
                             </div>
                           </div>
                           <div>
-                            <p className="font-medium text-sm">{appointment.type}</p>
-                            <p className="text-sm text-gray-600">with {appointment.dentist}</p>
+                            <p className="font-medium text-sm">
+                              {appointment.type}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              with {appointment.dentist}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-sm text-gray-600">{appointment.notes}</p>
+                            <p className="text-sm text-gray-600">
+                              {appointment.notes}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -345,7 +382,9 @@ export default function ReceptionistAppointments() {
                           <Edit className="h-4 w-4 mr-1" />
                           Edit
                         </Button>
-                        {appointment.status === "pending" && <Button size="sm">Confirm</Button>}
+                        {appointment.status === "pending" && (
+                          <Button size="sm">Confirm</Button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -359,51 +398,66 @@ export default function ReceptionistAppointments() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Today's Appointments</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Today's Appointments
+              </CardTitle>
               <CalendarIcon className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{appointments.length}</div>
               <p className="text-xs text-muted-foreground">
-                {appointments.filter((a) => a.status === "confirmed").length} confirmed
+                {appointments.filter((a) => a.status === "confirmed").length}{" "}
+                confirmed
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Confirmations</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Pending Confirmations
+              </CardTitle>
               <Clock className="h-4 w-4 text-yellow-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{appointments.filter((a) => a.status === "pending").length}</div>
+              <div className="text-2xl font-bold">
+                {appointments.filter((a) => a.status === "pending").length}
+              </div>
               <p className="text-xs text-muted-foreground">Need to confirm</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Available Slots</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Available Slots
+              </CardTitle>
               <Plus className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{timeSlots.length - appointments.length}</div>
+              <div className="text-2xl font-bold">
+                {timeSlots.length - appointments.length}
+              </div>
               <p className="text-xs text-muted-foreground">Open time slots</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Next Appointment</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Next Appointment
+              </CardTitle>
               <User className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
               <div className="text-lg font-bold">{appointments[0]?.time}</div>
-              <p className="text-xs text-muted-foreground">{appointments[0]?.patient}</p>
+              <p className="text-xs text-muted-foreground">
+                {appointments[0]?.patient}
+              </p>
             </CardContent>
           </Card>
         </div>
       </div>
     </ReceptionistLayout>
-  )
+  );
 }

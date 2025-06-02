@@ -1,69 +1,76 @@
 import { MongoClient, ServerApiVersion, Db } from "mongodb";
 
 if (!process.env.MONGODB_URI) {
-  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+  throw new Error("Missing MONGODB_URI environment variable");
+}
+let uri = process.env.MONGODB_URI;
+
+console.log("Connecting to MongoDB:", uri.replace(/:[^:]*@/, ":****@"));
+
+interface MongoConnection {
+  client: MongoClient;
+  db: Db;
 }
 
-const uri = process.env.MONGODB_URI;
+let cachedConnection: MongoConnection | null = null;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
-
-// Create a cache to store the database connection
-let cachedClient: MongoClient | null = null;
-let cachedDb: Db | null = null;
-
-export async function connectToDatabase() {
-  // If we have a cached connection, use it
-  if (cachedClient && cachedDb) {
-    return { client: cachedClient, db: cachedDb };
+export async function connectToDatabase(): Promise<MongoConnection> {
+  if (cachedConnection) {
+    return cachedConnection;
   }
 
   try {
-    // Connect to the MongoDB cluster
+    const client = new MongoClient(uri, {
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      },
+    });
+
     await client.connect();
+    console.log("Successfully connected to MongoDB");
 
-    // Verify connection with a ping
-    // await client.db("admin").command({ ping: 1 });
-    console.log("Connected successfully to MongoDB Atlas");
-
-    // Get the database
     const db = client.db("dental_clinic");
 
-    // Cache the connection
-    cachedClient = client;
-    cachedDb = db;
+    await db.command({ ping: 1 });
+    console.log("Database ping successful");
 
-    return { client, db };
+    cachedConnection = { client, db };
+
+    return cachedConnection;
   } catch (error) {
-    console.error("MongoDB connection error:", error);
+    console.error("Error connecting to MongoDB:", error);
+
+    cachedConnection = null;
     throw error;
   }
 }
 
 export async function getDatabase(): Promise<Db> {
-  const { db } = await connectToDatabase();
-  return db;
+  try {
+    const { db } = await connectToDatabase();
+    return db;
+  } catch (error) {
+    console.error("Failed to get database:", error);
+    throw error;
+  }
 }
 
-// Handle graceful shutdown
-process.on("SIGINT", async () => {
-  try {
-    if (cachedClient) {
-      await cachedClient.close();
-      console.log("MongoDB connection closed.");
+const cleanup = async () => {
+  if (cachedConnection) {
+    try {
+      await cachedConnection.client.close();
+      console.log("MongoDB connection closed");
+      cachedConnection = null;
+    } catch (err) {
+      console.error("Error closing MongoDB connection:", err);
     }
-    process.exit(0);
-  } catch (err) {
-    console.error("Error closing MongoDB connection:", err);
-    process.exit(1);
   }
-});
+};
 
-export default client;
+process.on("SIGINT", cleanup);
+process.on("SIGTERM", cleanup);
+process.on("SIGQUIT", cleanup);
+
+export default connectToDatabase;

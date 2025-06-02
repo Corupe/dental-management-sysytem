@@ -1,8 +1,21 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Calendar, Clock, Users, FileText, Stethoscope, AlertCircle } from "lucide-react"
-import { DentistLayout } from "@/components/layouts/dentist-layout"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
+import { Button } from "../../../components/ui/button";
+import {
+  Calendar,
+  Clock,
+  Users,
+  FileText,
+  Stethoscope,
+  AlertCircle,
+} from "lucide-react";
+import { DentistLayout } from "../../../components/layouts/dentist-layout";
 
 export default function DentistDashboard() {
   const todayAppointments = [
@@ -38,51 +51,71 @@ export default function DentistDashboard() {
       status: "pending",
       duration: "60 min",
     },
-  ]
+  ];
 
   const recentPatients = [
-    { name: "Emma Davis", lastVisit: "2024-01-10", condition: "Cavity treatment completed" },
-    { name: "Robert Chen", lastVisit: "2024-01-08", condition: "Crown placement scheduled" },
-    { name: "Maria Garcia", lastVisit: "2024-01-05", condition: "Orthodontic consultation" },
-  ]
+    {
+      name: "Emma Davis",
+      lastVisit: "2024-01-10",
+      condition: "Cavity treatment completed",
+    },
+    {
+      name: "Robert Chen",
+      lastVisit: "2024-01-08",
+      condition: "Crown placement scheduled",
+    },
+    {
+      name: "Maria Garcia",
+      lastVisit: "2024-01-05",
+      condition: "Orthodontic consultation",
+    },
+  ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "in-progress":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case "pending":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <DentistLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Good morning, Dr. Smith!</h1>
-          <p className="text-gray-600">You have 4 appointments scheduled for today.</p>
+          <p className="text-gray-600">
+            You have 4 appointments scheduled for today.
+          </p>
         </div>
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Today's Appointments</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Today's Appointments
+              </CardTitle>
               <Calendar className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">4</div>
-              <p className="text-xs text-muted-foreground">2 completed, 2 remaining</p>
+              <p className="text-xs text-muted-foreground">
+                2 completed, 2 remaining
+              </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Patients</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Patients
+              </CardTitle>
               <Users className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
@@ -93,23 +126,31 @@ export default function DentistDashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Reports</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Pending Reports
+              </CardTitle>
               <FileText className="h-4 w-4 text-yellow-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">7</div>
-              <p className="text-xs text-muted-foreground">Treatment notes to complete</p>
+              <p className="text-xs text-muted-foreground">
+                Treatment notes to complete
+              </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Urgent Cases</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Urgent Cases
+              </CardTitle>
               <AlertCircle className="h-4 w-4 text-red-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">2</div>
-              <p className="text-xs text-muted-foreground">Require immediate attention</p>
+              <p className="text-xs text-muted-foreground">
+                Require immediate attention
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -127,13 +168,20 @@ export default function DentistDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {todayAppointments.map((appointment) => (
-                  <div key={appointment.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div
+                    key={appointment.id}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium">{appointment.time}</span>
-                        <Badge className={getStatusColor(appointment.status)}>{appointment.status}</Badge>
+                        <Badge className={getStatusColor(appointment.status)}>
+                          {appointment.status}
+                        </Badge>
                       </div>
-                      <p className="text-sm font-medium">{appointment.patient}</p>
+                      <p className="text-sm font-medium">
+                        {appointment.patient}
+                      </p>
                       <p className="text-xs text-gray-500">
                         {appointment.type} • {appointment.duration}
                       </p>
@@ -159,11 +207,18 @@ export default function DentistDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {recentPatients.map((patient, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
                     <div>
                       <p className="font-medium">{patient.name}</p>
-                      <p className="text-sm text-gray-500">Last visit: {patient.lastVisit}</p>
-                      <p className="text-xs text-gray-400">{patient.condition}</p>
+                      <p className="text-sm text-gray-500">
+                        Last visit: {patient.lastVisit}
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        {patient.condition}
+                      </p>
                     </div>
                     <Button variant="outline" size="sm">
                       View Records
@@ -200,5 +255,5 @@ export default function DentistDashboard() {
         </Card>
       </div>
     </DentistLayout>
-  )
+  );
 }

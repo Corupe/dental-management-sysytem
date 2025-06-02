@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Calendar, DollarSign, AlertTriangle } from "lucide-react"
-import { useDashboardStats } from "@/hooks/use-dashboard-stats"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Users, Calendar, DollarSign, AlertTriangle } from "lucide-react";
+import { useDashboardStats } from "../hooks/use-dashboard-stats";
+import { Skeleton } from "./ui/skeleton";
 
 export function DashboardStatsClient() {
-  const { stats, loading, error } = useDashboardStats()
+  const { stats, loading, error } = useDashboardStats();
 
   if (loading) {
     return (
@@ -24,7 +24,7 @@ export function DashboardStatsClient() {
           </Card>
         ))}
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -36,7 +36,7 @@ export function DashboardStatsClient() {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 
   const statsConfig = [
@@ -68,7 +68,7 @@ export function DashboardStatsClient() {
       icon: AlertTriangle,
       color: "text-red-600",
     },
-  ]
+  ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -81,11 +81,12 @@ export function DashboardStatsClient() {
           <CardContent>
             <div className="text-2xl font-bold">{stat.value}</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-green-600">{stat.change}</span> from last month
+              <span className="text-green-600">{stat.change}</span> from last
+              month
             </p>
           </CardContent>
         </Card>
       ))}
     </div>
-  )
+  );
 }

@@ -1,11 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -13,14 +26,26 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { DentistLayout } from "@/components/layouts/dentist-layout"
-import { Users, Search, FileText, Calendar, AlertTriangle, Heart } from "lucide-react"
+} from "../../../components/ui/dialog";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../../components/ui/tabs";
+import { DentistLayout } from "../../../components/layouts/dentist-layout";
+import {
+  Users,
+  Search,
+  FileText,
+  Calendar,
+  AlertTriangle,
+  Heart,
+} from "lucide-react";
 
 export default function DentistPatients() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedPatient, setSelectedPatient] = useState<any>(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
   const patients = [
     {
@@ -35,7 +60,11 @@ export default function DentistPatients() {
       conditions: ["Gingivitis"],
       allergies: ["Penicillin"],
       treatments: [
-        { date: "2024-01-15", type: "Routine Checkup", notes: "Good oral health" },
+        {
+          date: "2024-01-15",
+          type: "Routine Checkup",
+          notes: "Good oral health",
+        },
         { date: "2023-12-10", type: "Cleaning", notes: "Minor plaque buildup" },
       ],
     },
@@ -51,8 +80,16 @@ export default function DentistPatients() {
       conditions: ["Cavity", "Sensitive teeth"],
       allergies: ["Latex"],
       treatments: [
-        { date: "2024-01-10", type: "Filling", notes: "Composite filling on molar" },
-        { date: "2023-11-20", type: "Consultation", notes: "Discussed treatment options" },
+        {
+          date: "2024-01-10",
+          type: "Filling",
+          notes: "Composite filling on molar",
+        },
+        {
+          date: "2023-11-20",
+          type: "Consultation",
+          notes: "Discussed treatment options",
+        },
       ],
     },
     {
@@ -67,30 +104,38 @@ export default function DentistPatients() {
       conditions: ["Periodontal disease", "Tooth decay"],
       allergies: ["None"],
       treatments: [
-        { date: "2024-01-08", type: "Deep Cleaning", notes: "Significant tartar removal" },
-        { date: "2023-10-15", type: "Root Canal", notes: "Successful procedure" },
+        {
+          date: "2024-01-08",
+          type: "Deep Cleaning",
+          notes: "Significant tartar removal",
+        },
+        {
+          date: "2023-10-15",
+          type: "Root Canal",
+          notes: "Successful procedure",
+        },
       ],
     },
-  ]
+  ];
 
   const filteredPatients = patients.filter(
     (patient) =>
       patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      patient.email.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      patient.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
       case "low":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "medium":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "high":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <DentistLayout>
@@ -98,7 +143,9 @@ export default function DentistPatients() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">My Patients</h1>
-            <p className="text-gray-600">Manage patient records and treatment history</p>
+            <p className="text-gray-600">
+              Manage patient records and treatment history
+            </p>
           </div>
         </div>
 
@@ -106,7 +153,9 @@ export default function DentistPatients() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Patients</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Patients
+              </CardTitle>
               <Users className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
@@ -121,18 +170,24 @@ export default function DentistPatients() {
               <AlertTriangle className="h-4 w-4 text-red-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{patients.filter((p) => p.riskLevel === "high").length}</div>
+              <div className="text-2xl font-bold">
+                {patients.filter((p) => p.riskLevel === "high").length}
+              </div>
               <p className="text-xs text-muted-foreground">Need attention</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Upcoming Visits</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Upcoming Visits
+              </CardTitle>
               <Calendar className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{patients.filter((p) => p.nextAppointment).length}</div>
+              <div className="text-2xl font-bold">
+                {patients.filter((p) => p.nextAppointment).length}
+              </div>
               <p className="text-xs text-muted-foreground">Scheduled</p>
             </CardContent>
           </Card>
@@ -143,7 +198,9 @@ export default function DentistPatients() {
               <Heart className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{patients.reduce((sum, p) => sum + p.treatments.length, 0)}</div>
+              <div className="text-2xl font-bold">
+                {patients.reduce((sum, p) => sum + p.treatments.length, 0)}
+              </div>
               <p className="text-xs text-muted-foreground">Total completed</p>
             </CardContent>
           </Card>
@@ -153,7 +210,9 @@ export default function DentistPatients() {
         <Card>
           <CardHeader>
             <CardTitle>Patient Records</CardTitle>
-            <CardDescription>View and manage your patient information</CardDescription>
+            <CardDescription>
+              View and manage your patient information
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex gap-4 mb-6">
@@ -183,7 +242,9 @@ export default function DentistPatients() {
               <TableBody>
                 {filteredPatients.map((patient) => (
                   <TableRow key={patient.id}>
-                    <TableCell className="font-medium">{patient.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {patient.name}
+                    </TableCell>
                     <TableCell>{patient.age}</TableCell>
                     <TableCell>
                       <div className="text-sm">
@@ -193,70 +254,102 @@ export default function DentistPatients() {
                     </TableCell>
                     <TableCell>{patient.lastVisit}</TableCell>
                     <TableCell>
-                      <Badge className={getRiskColor(patient.riskLevel)}>{patient.riskLevel}</Badge>
+                      <Badge className={getRiskColor(patient.riskLevel)}>
+                        {patient.riskLevel}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        {patient.conditions.slice(0, 2).map((condition, idx) => (
-                          <div key={idx}>{condition}</div>
-                        ))}
+                        {patient.conditions
+                          .slice(0, 2)
+                          .map((condition, idx) => (
+                            <div key={idx}>{condition}</div>
+                          ))}
                         {patient.conditions.length > 2 && (
-                          <div className="text-gray-500">+{patient.conditions.length - 2} more</div>
+                          <div className="text-gray-500">
+                            +{patient.conditions.length - 2} more
+                          </div>
                         )}
                       </div>
                     </TableCell>
                     <TableCell>
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="outline" size="sm" onClick={() => setSelectedPatient(patient)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setSelectedPatient(patient)}
+                          >
                             <FileText className="h-4 w-4 mr-1" />
                             View Records
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[700px]">
                           <DialogHeader>
-                            <DialogTitle>{patient.name} - Medical Records</DialogTitle>
-                            <DialogDescription>Complete patient information and treatment history</DialogDescription>
+                            <DialogTitle>
+                              {patient.name} - Medical Records
+                            </DialogTitle>
+                            <DialogDescription>
+                              Complete patient information and treatment history
+                            </DialogDescription>
                           </DialogHeader>
 
                           <Tabs defaultValue="overview" className="w-full">
                             <TabsList className="grid w-full grid-cols-3">
-                              <TabsTrigger value="overview">Overview</TabsTrigger>
-                              <TabsTrigger value="treatments">Treatments</TabsTrigger>
+                              <TabsTrigger value="overview">
+                                Overview
+                              </TabsTrigger>
+                              <TabsTrigger value="treatments">
+                                Treatments
+                              </TabsTrigger>
                               <TabsTrigger value="notes">Notes</TabsTrigger>
                             </TabsList>
 
                             <TabsContent value="overview" className="space-y-4">
                               <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                  <h4 className="font-medium mb-2">Patient Information</h4>
+                                  <h4 className="font-medium mb-2">
+                                    Patient Information
+                                  </h4>
                                   <div className="space-y-1 text-sm">
                                     <div>Age: {patient.age}</div>
                                     <div>Phone: {patient.phone}</div>
                                     <div>Email: {patient.email}</div>
                                     <div>
                                       Risk Level:{" "}
-                                      <Badge className={getRiskColor(patient.riskLevel)}>{patient.riskLevel}</Badge>
+                                      <Badge
+                                        className={getRiskColor(
+                                          patient.riskLevel
+                                        )}
+                                      >
+                                        {patient.riskLevel}
+                                      </Badge>
                                     </div>
                                   </div>
                                 </div>
                                 <div>
-                                  <h4 className="font-medium mb-2">Medical Information</h4>
+                                  <h4 className="font-medium mb-2">
+                                    Medical Information
+                                  </h4>
                                   <div className="space-y-2 text-sm">
                                     <div>
                                       <strong>Conditions:</strong>
                                       <ul className="list-disc list-inside ml-2">
-                                        {patient.conditions.map((condition, idx) => (
-                                          <li key={idx}>{condition}</li>
-                                        ))}
+                                        {patient.conditions.map(
+                                          (condition, idx) => (
+                                            <li key={idx}>{condition}</li>
+                                          )
+                                        )}
                                       </ul>
                                     </div>
                                     <div>
                                       <strong>Allergies:</strong>
                                       <ul className="list-disc list-inside ml-2">
-                                        {patient.allergies.map((allergy, idx) => (
-                                          <li key={idx}>{allergy}</li>
-                                        ))}
+                                        {patient.allergies.map(
+                                          (allergy, idx) => (
+                                            <li key={idx}>{allergy}</li>
+                                          )
+                                        )}
                                       </ul>
                                     </div>
                                   </div>
@@ -264,15 +357,27 @@ export default function DentistPatients() {
                               </div>
                             </TabsContent>
 
-                            <TabsContent value="treatments" className="space-y-4">
+                            <TabsContent
+                              value="treatments"
+                              className="space-y-4"
+                            >
                               <div className="space-y-3">
                                 {patient.treatments.map((treatment, idx) => (
-                                  <div key={idx} className="p-3 border rounded-lg">
+                                  <div
+                                    key={idx}
+                                    className="p-3 border rounded-lg"
+                                  >
                                     <div className="flex justify-between items-start mb-2">
-                                      <h5 className="font-medium">{treatment.type}</h5>
-                                      <span className="text-sm text-gray-500">{treatment.date}</span>
+                                      <h5 className="font-medium">
+                                        {treatment.type}
+                                      </h5>
+                                      <span className="text-sm text-gray-500">
+                                        {treatment.date}
+                                      </span>
                                     </div>
-                                    <p className="text-sm text-gray-600">{treatment.notes}</p>
+                                    <p className="text-sm text-gray-600">
+                                      {treatment.notes}
+                                    </p>
                                   </div>
                                 ))}
                               </div>
@@ -282,20 +387,30 @@ export default function DentistPatients() {
                               <div className="space-y-3">
                                 <div className="p-3 border rounded-lg">
                                   <div className="flex justify-between items-start mb-2">
-                                    <h5 className="font-medium">Treatment Plan</h5>
-                                    <span className="text-sm text-gray-500">2024-01-15</span>
+                                    <h5 className="font-medium">
+                                      Treatment Plan
+                                    </h5>
+                                    <span className="text-sm text-gray-500">
+                                      2024-01-15
+                                    </span>
                                   </div>
                                   <p className="text-sm text-gray-600">
-                                    Continue regular checkups every 6 months. Monitor gingivitis progression.
+                                    Continue regular checkups every 6 months.
+                                    Monitor gingivitis progression.
                                   </p>
                                 </div>
                                 <div className="p-3 border rounded-lg">
                                   <div className="flex justify-between items-start mb-2">
-                                    <h5 className="font-medium">Follow-up Required</h5>
-                                    <span className="text-sm text-gray-500">2024-01-10</span>
+                                    <h5 className="font-medium">
+                                      Follow-up Required
+                                    </h5>
+                                    <span className="text-sm text-gray-500">
+                                      2024-01-10
+                                    </span>
                                   </div>
                                   <p className="text-sm text-gray-600">
-                                    Schedule follow-up in 2 weeks to check filling integrity.
+                                    Schedule follow-up in 2 weeks to check
+                                    filling integrity.
                                   </p>
                                 </div>
                               </div>
@@ -312,5 +427,5 @@ export default function DentistPatients() {
         </Card>
       </div>
     </DentistLayout>
-  )
+  );
 }

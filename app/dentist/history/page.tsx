@@ -1,11 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../../components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -13,13 +24,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { DentistLayout } from "@/components/layouts/dentist-layout"
-import { Stethoscope, Search, FileText, AlertTriangle, Heart, Calendar } from "lucide-react"
+} from "../../../components/ui/dialog";
+import { DentistLayout } from "../../../components/layouts/dentist-layout";
+import {
+  Stethoscope,
+  Search,
+  FileText,
+  AlertTriangle,
+  Heart,
+  Calendar,
+} from "lucide-react";
 
 export default function DentistHistory() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedPatient, setSelectedPatient] = useState<any>(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
   const patients = [
     {
@@ -58,8 +76,16 @@ export default function DentistHistory() {
         },
       ],
       xrays: [
-        { date: "2024-01-15", type: "Bitewing", findings: "No cavities detected" },
-        { date: "2023-07-20", type: "Periapical", findings: "Cavity confirmed on tooth #3" },
+        {
+          date: "2024-01-15",
+          type: "Bitewing",
+          findings: "No cavities detected",
+        },
+        {
+          date: "2023-07-20",
+          type: "Periapical",
+          findings: "Cavity confirmed on tooth #3",
+        },
       ],
       notes: [
         {
@@ -101,8 +127,16 @@ export default function DentistHistory() {
         },
       ],
       xrays: [
-        { date: "2024-01-10", type: "Periapical", findings: "Root canal treatment progress" },
-        { date: "2023-12-15", type: "Periapical", findings: "Infection confirmed" },
+        {
+          date: "2024-01-10",
+          type: "Periapical",
+          findings: "Root canal treatment progress",
+        },
+        {
+          date: "2023-12-15",
+          type: "Periapical",
+          findings: "Infection confirmed",
+        },
       ],
       notes: [
         {
@@ -111,37 +145,41 @@ export default function DentistHistory() {
         },
       ],
     },
-  ]
+  ];
 
-  const filteredPatients = patients.filter((patient) => patient.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredPatients = patients.filter((patient) =>
+    patient.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const getRiskLevel = (patient: any) => {
-    const conditions = patient.medicalHistory.conditions.length
-    const allergies = patient.medicalHistory.allergies.length
-    if (conditions > 1 || allergies > 1) return "high"
-    if (conditions > 0 || allergies > 0) return "medium"
-    return "low"
-  }
+    const conditions = patient.medicalHistory.conditions.length;
+    const allergies = patient.medicalHistory.allergies.length;
+    if (conditions > 1 || allergies > 1) return "high";
+    if (conditions > 0 || allergies > 0) return "medium";
+    return "low";
+  };
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
       case "high":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       case "medium":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "low":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <DentistLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Medical History</h1>
-          <p className="text-gray-600">Comprehensive patient medical and dental records</p>
+          <p className="text-gray-600">
+            Comprehensive patient medical and dental records
+          </p>
         </div>
 
         {/* Search */}
@@ -162,9 +200,12 @@ export default function DentistHistory() {
         {/* Patients Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPatients.map((patient) => {
-            const riskLevel = getRiskLevel(patient)
+            const riskLevel = getRiskLevel(patient);
             return (
-              <Card key={patient.id} className="cursor-pointer hover:shadow-md transition-shadow">
+              <Card
+                key={patient.id}
+                className="cursor-pointer hover:shadow-md transition-shadow"
+              >
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
@@ -173,7 +214,9 @@ export default function DentistHistory() {
                         Age: {patient.age} • {patient.totalVisits} visits
                       </CardDescription>
                     </div>
-                    <Badge className={getRiskColor(riskLevel)}>{riskLevel} risk</Badge>
+                    <Badge className={getRiskColor(riskLevel)}>
+                      {riskLevel} risk
+                    </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -186,7 +229,9 @@ export default function DentistHistory() {
                       <AlertTriangle className="h-4 w-4 text-gray-500" />
                       <span>
                         {patient.medicalHistory.allergies.length > 0
-                          ? `Allergies: ${patient.medicalHistory.allergies.join(", ")}`
+                          ? `Allergies: ${patient.medicalHistory.allergies.join(
+                              ", "
+                            )}`
                           : "No known allergies"}
                       </span>
                     </div>
@@ -201,15 +246,22 @@ export default function DentistHistory() {
                   </div>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button className="w-full mt-4" onClick={() => setSelectedPatient(patient)}>
+                      <Button
+                        className="w-full mt-4"
+                        onClick={() => setSelectedPatient(patient)}
+                      >
                         <FileText className="h-4 w-4 mr-2" />
                         View Full History
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto">
                       <DialogHeader>
-                        <DialogTitle>{patient.name} - Complete Medical History</DialogTitle>
-                        <DialogDescription>Comprehensive patient records and treatment history</DialogDescription>
+                        <DialogTitle>
+                          {patient.name} - Complete Medical History
+                        </DialogTitle>
+                        <DialogDescription>
+                          Comprehensive patient records and treatment history
+                        </DialogDescription>
                       </DialogHeader>
 
                       <Tabs defaultValue="medical" className="w-full">
@@ -224,68 +276,94 @@ export default function DentistHistory() {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Card>
                               <CardHeader>
-                                <CardTitle className="text-sm">Allergies</CardTitle>
+                                <CardTitle className="text-sm">
+                                  Allergies
+                                </CardTitle>
                               </CardHeader>
                               <CardContent>
                                 {patient.medicalHistory.allergies.length > 0 ? (
                                   <ul className="list-disc list-inside text-sm">
-                                    {patient.medicalHistory.allergies.map((allergy: string, idx: number) => (
-                                      <li key={idx}>{allergy}</li>
-                                    ))}
+                                    {patient.medicalHistory.allergies.map(
+                                      (allergy: string, idx: number) => (
+                                        <li key={idx}>{allergy}</li>
+                                      )
+                                    )}
                                   </ul>
                                 ) : (
-                                  <p className="text-sm text-gray-500">No known allergies</p>
+                                  <p className="text-sm text-gray-500">
+                                    No known allergies
+                                  </p>
                                 )}
                               </CardContent>
                             </Card>
 
                             <Card>
                               <CardHeader>
-                                <CardTitle className="text-sm">Current Medications</CardTitle>
+                                <CardTitle className="text-sm">
+                                  Current Medications
+                                </CardTitle>
                               </CardHeader>
                               <CardContent>
-                                {patient.medicalHistory.medications.length > 0 ? (
+                                {patient.medicalHistory.medications.length >
+                                0 ? (
                                   <ul className="list-disc list-inside text-sm">
-                                    {patient.medicalHistory.medications.map((medication: string, idx: number) => (
-                                      <li key={idx}>{medication}</li>
-                                    ))}
+                                    {patient.medicalHistory.medications.map(
+                                      (medication: string, idx: number) => (
+                                        <li key={idx}>{medication}</li>
+                                      )
+                                    )}
                                   </ul>
                                 ) : (
-                                  <p className="text-sm text-gray-500">No current medications</p>
+                                  <p className="text-sm text-gray-500">
+                                    No current medications
+                                  </p>
                                 )}
                               </CardContent>
                             </Card>
 
                             <Card>
                               <CardHeader>
-                                <CardTitle className="text-sm">Medical Conditions</CardTitle>
+                                <CardTitle className="text-sm">
+                                  Medical Conditions
+                                </CardTitle>
                               </CardHeader>
                               <CardContent>
-                                {patient.medicalHistory.conditions.length > 0 ? (
+                                {patient.medicalHistory.conditions.length >
+                                0 ? (
                                   <ul className="list-disc list-inside text-sm">
-                                    {patient.medicalHistory.conditions.map((condition: string, idx: number) => (
-                                      <li key={idx}>{condition}</li>
-                                    ))}
+                                    {patient.medicalHistory.conditions.map(
+                                      (condition: string, idx: number) => (
+                                        <li key={idx}>{condition}</li>
+                                      )
+                                    )}
                                   </ul>
                                 ) : (
-                                  <p className="text-sm text-gray-500">No medical conditions</p>
+                                  <p className="text-sm text-gray-500">
+                                    No medical conditions
+                                  </p>
                                 )}
                               </CardContent>
                             </Card>
 
                             <Card>
                               <CardHeader>
-                                <CardTitle className="text-sm">Previous Surgeries</CardTitle>
+                                <CardTitle className="text-sm">
+                                  Previous Surgeries
+                                </CardTitle>
                               </CardHeader>
                               <CardContent>
                                 {patient.medicalHistory.surgeries.length > 0 ? (
                                   <ul className="list-disc list-inside text-sm">
-                                    {patient.medicalHistory.surgeries.map((surgery: string, idx: number) => (
-                                      <li key={idx}>{surgery}</li>
-                                    ))}
+                                    {patient.medicalHistory.surgeries.map(
+                                      (surgery: string, idx: number) => (
+                                        <li key={idx}>{surgery}</li>
+                                      )
+                                    )}
                                   </ul>
                                 ) : (
-                                  <p className="text-sm text-gray-500">No previous surgeries</p>
+                                  <p className="text-sm text-gray-500">
+                                    No previous surgeries
+                                  </p>
                                 )}
                               </CardContent>
                             </Card>
@@ -294,27 +372,35 @@ export default function DentistHistory() {
 
                         <TabsContent value="dental" className="space-y-4">
                           <div className="space-y-3">
-                            {patient.dentalHistory.map((record: any, idx: number) => (
-                              <Card key={idx}>
-                                <CardHeader>
-                                  <div className="flex justify-between items-start">
-                                    <CardTitle className="text-sm">{record.procedure}</CardTitle>
-                                    <span className="text-xs text-gray-500">{record.date}</span>
-                                  </div>
-                                </CardHeader>
-                                <CardContent className="text-sm space-y-2">
-                                  <div>
-                                    <strong>Findings:</strong> {record.findings}
-                                  </div>
-                                  <div>
-                                    <strong>Treatment:</strong> {record.treatment}
-                                  </div>
-                                  <div>
-                                    <strong>Dentist:</strong> {record.dentist}
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            ))}
+                            {patient.dentalHistory.map(
+                              (record: any, idx: number) => (
+                                <Card key={idx}>
+                                  <CardHeader>
+                                    <div className="flex justify-between items-start">
+                                      <CardTitle className="text-sm">
+                                        {record.procedure}
+                                      </CardTitle>
+                                      <span className="text-xs text-gray-500">
+                                        {record.date}
+                                      </span>
+                                    </div>
+                                  </CardHeader>
+                                  <CardContent className="text-sm space-y-2">
+                                    <div>
+                                      <strong>Findings:</strong>{" "}
+                                      {record.findings}
+                                    </div>
+                                    <div>
+                                      <strong>Treatment:</strong>{" "}
+                                      {record.treatment}
+                                    </div>
+                                    <div>
+                                      <strong>Dentist:</strong> {record.dentist}
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              )
+                            )}
                           </div>
                         </TabsContent>
 
@@ -324,8 +410,12 @@ export default function DentistHistory() {
                               <Card key={idx}>
                                 <CardHeader>
                                   <div className="flex justify-between items-start">
-                                    <CardTitle className="text-sm">{xray.type} X-Ray</CardTitle>
-                                    <span className="text-xs text-gray-500">{xray.date}</span>
+                                    <CardTitle className="text-sm">
+                                      {xray.type} X-Ray
+                                    </CardTitle>
+                                    <span className="text-xs text-gray-500">
+                                      {xray.date}
+                                    </span>
                                   </div>
                                 </CardHeader>
                                 <CardContent className="text-sm">
@@ -343,10 +433,16 @@ export default function DentistHistory() {
                             {patient.notes.map((note: any, idx: number) => (
                               <Card key={idx}>
                                 <CardHeader>
-                                  <CardTitle className="text-sm">Clinical Note</CardTitle>
-                                  <span className="text-xs text-gray-500">{note.date}</span>
+                                  <CardTitle className="text-sm">
+                                    Clinical Note
+                                  </CardTitle>
+                                  <span className="text-xs text-gray-500">
+                                    {note.date}
+                                  </span>
                                 </CardHeader>
-                                <CardContent className="text-sm">{note.note}</CardContent>
+                                <CardContent className="text-sm">
+                                  {note.note}
+                                </CardContent>
                               </Card>
                             ))}
                           </div>
@@ -356,7 +452,7 @@ export default function DentistHistory() {
                   </Dialog>
                 </CardContent>
               </Card>
-            )
+            );
           })}
         </div>
 
@@ -364,7 +460,9 @@ export default function DentistHistory() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Patients</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Patients
+              </CardTitle>
               <Stethoscope className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
@@ -379,19 +477,31 @@ export default function DentistHistory() {
               <AlertTriangle className="h-4 w-4 text-red-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{patients.filter((p) => getRiskLevel(p) === "high").length}</div>
-              <p className="text-xs text-muted-foreground">Need special attention</p>
+              <div className="text-2xl font-bold">
+                {patients.filter((p) => getRiskLevel(p) === "high").length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Need special attention
+              </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Recent Visits</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Recent Visits
+              </CardTitle>
               <Calendar className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {patients.filter((p) => new Date(p.lastVisit) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)).length}
+                {
+                  patients.filter(
+                    (p) =>
+                      new Date(p.lastVisit) >
+                      new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+                  ).length
+                }
               </div>
               <p className="text-xs text-muted-foreground">Last 30 days</p>
             </CardContent>
@@ -404,7 +514,10 @@ export default function DentistHistory() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {Math.round(patients.reduce((sum, p) => sum + p.totalVisits, 0) / patients.length)}
+                {Math.round(
+                  patients.reduce((sum, p) => sum + p.totalVisits, 0) /
+                    patients.length
+                )}
               </div>
               <p className="text-xs text-muted-foreground">Per patient</p>
             </CardContent>
@@ -412,5 +525,5 @@ export default function DentistHistory() {
         </div>
       </div>
     </DentistLayout>
-  )
+  );
 }

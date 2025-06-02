@@ -1,11 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -13,15 +26,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { ReceptionistLayout } from "@/components/layouts/receptionist-layout"
-import { Users, Search, UserPlus, Phone, Mail, Calendar, Edit, Eye } from "lucide-react"
+} from "../../../components/ui/dialog";
+import { Label } from "../../../components/ui/label";
+import { Textarea } from "../../../components/ui/textarea";
+import { ReceptionistLayout } from "../../../components/layouts/receptionist-layout";
+import {
+  Users,
+  Search,
+  UserPlus,
+  Phone,
+  Mail,
+  Calendar,
+  Edit,
+  Eye,
+} from "lucide-react";
 
 export default function ReceptionistPatients() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [isAddPatientOpen, setIsAddPatientOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isAddPatientOpen, setIsAddPatientOpen] = useState(false);
 
   const patients = [
     {
@@ -76,38 +98,41 @@ export default function ReceptionistPatients() {
       insurance: "United Healthcare",
       emergencyContact: "Tom Anderson - (555) 654-3210",
     },
-  ]
+  ];
 
   const filteredPatients = patients.filter(
     (patient) =>
       patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       patient.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      patient.phone.includes(searchTerm),
-  )
+      patient.phone.includes(searchTerm)
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "inactive":
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
       case "new":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   const calculateAge = (dateOfBirth: string) => {
-    const today = new Date()
-    const birthDate = new Date(dateOfBirth)
-    let age = today.getFullYear() - birthDate.getFullYear()
-    const monthDiff = today.getMonth() - birthDate.getMonth()
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
     }
-    return age
-  }
+    return age;
+  };
 
   return (
     <ReceptionistLayout>
@@ -115,7 +140,9 @@ export default function ReceptionistPatients() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Patient Management</h1>
-            <p className="text-gray-600">Manage patient information and records</p>
+            <p className="text-gray-600">
+              Manage patient information and records
+            </p>
           </div>
 
           <Dialog open={isAddPatientOpen} onOpenChange={setIsAddPatientOpen}>
@@ -128,7 +155,9 @@ export default function ReceptionistPatients() {
             <DialogContent className="sm:max-w-[600px]">
               <DialogHeader>
                 <DialogTitle>Add New Patient</DialogTitle>
-                <DialogDescription>Register a new patient in the system</DialogDescription>
+                <DialogDescription>
+                  Register a new patient in the system
+                </DialogDescription>
               </DialogHeader>
               <form className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -144,7 +173,11 @@ export default function ReceptionistPatients() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="john@email.com" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="john@email.com"
+                    />
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone</Label>
@@ -158,23 +191,39 @@ export default function ReceptionistPatients() {
                   </div>
                   <div>
                     <Label htmlFor="insurance">Insurance Provider</Label>
-                    <Input id="insurance" placeholder="Blue Cross Blue Shield" />
+                    <Input
+                      id="insurance"
+                      placeholder="Blue Cross Blue Shield"
+                    />
                   </div>
                 </div>
                 <div>
                   <Label htmlFor="address">Address</Label>
-                  <Input id="address" placeholder="123 Main St, City, State 12345" />
+                  <Input
+                    id="address"
+                    placeholder="123 Main St, City, State 12345"
+                  />
                 </div>
                 <div>
                   <Label htmlFor="emergencyContact">Emergency Contact</Label>
-                  <Input id="emergencyContact" placeholder="Name - Phone Number" />
+                  <Input
+                    id="emergencyContact"
+                    placeholder="Name - Phone Number"
+                  />
                 </div>
                 <div>
                   <Label htmlFor="notes">Medical Notes</Label>
-                  <Textarea id="notes" placeholder="Any medical conditions, allergies, or special notes" />
+                  <Textarea
+                    id="notes"
+                    placeholder="Any medical conditions, allergies, or special notes"
+                  />
                 </div>
                 <div className="flex justify-end gap-2">
-                  <Button type="button" variant="outline" onClick={() => setIsAddPatientOpen(false)}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsAddPatientOpen(false)}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit">Add Patient</Button>
@@ -188,40 +237,54 @@ export default function ReceptionistPatients() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Patients</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Patients
+              </CardTitle>
               <Users className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{patients.length}</div>
-              <p className="text-xs text-muted-foreground">Registered patients</p>
+              <p className="text-xs text-muted-foreground">
+                Registered patients
+              </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Patients</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Active Patients
+              </CardTitle>
               <Users className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{patients.filter((p) => p.status === "active").length}</div>
+              <div className="text-2xl font-bold">
+                {patients.filter((p) => p.status === "active").length}
+              </div>
               <p className="text-xs text-muted-foreground">Currently active</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Upcoming Appointments</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Upcoming Appointments
+              </CardTitle>
               <Calendar className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{patients.filter((p) => p.nextAppointment).length}</div>
+              <div className="text-2xl font-bold">
+                {patients.filter((p) => p.nextAppointment).length}
+              </div>
               <p className="text-xs text-muted-foreground">Scheduled visits</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">New This Month</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                New This Month
+              </CardTitle>
               <UserPlus className="h-4 w-4 text-yellow-600" />
             </CardHeader>
             <CardContent>
@@ -235,7 +298,9 @@ export default function ReceptionistPatients() {
         <Card>
           <CardHeader>
             <CardTitle>Patient Directory</CardTitle>
-            <CardDescription>Complete list of registered patients</CardDescription>
+            <CardDescription>
+              Complete list of registered patients
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex gap-4 mb-6">
@@ -265,7 +330,9 @@ export default function ReceptionistPatients() {
               <TableBody>
                 {filteredPatients.map((patient) => (
                   <TableRow key={patient.id}>
-                    <TableCell className="font-medium">{patient.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {patient.name}
+                    </TableCell>
                     <TableCell>
                       <div className="space-y-1">
                         <div className="flex items-center gap-2 text-sm">
@@ -280,9 +347,13 @@ export default function ReceptionistPatients() {
                     </TableCell>
                     <TableCell>{calculateAge(patient.dateOfBirth)}</TableCell>
                     <TableCell>{patient.lastVisit}</TableCell>
-                    <TableCell>{patient.nextAppointment || "Not scheduled"}</TableCell>
                     <TableCell>
-                      <Badge className={getStatusColor(patient.status)}>{patient.status}</Badge>
+                      {patient.nextAppointment || "Not scheduled"}
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getStatusColor(patient.status)}>
+                        {patient.status}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
@@ -308,5 +379,5 @@ export default function ReceptionistPatients() {
         </Card>
       </div>
     </ReceptionistLayout>
-  )
+  );
 }
